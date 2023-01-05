@@ -166,11 +166,11 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           options={{ headerShown: false }}
           name="LoginScreen"
           component={LoginScreen}
-        /> */}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="BottomTab"

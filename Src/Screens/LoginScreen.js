@@ -5,24 +5,27 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, {useState} from 'react';
-import ApplicationStyles from '../Themes/ApplicationStyles';
-import Colors from '../Themes/Colors';
-import {commonFontStyle, SCREEN_WIDTH} from '../Themes/Fonts';
-import {EyePassword, LogoLoginScreen} from '../SvgIcons/IconSvg';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+} from "react-native";
+import React, { useState } from "react";
+import ApplicationStyles from "../Themes/ApplicationStyles";
+import Colors from "../Themes/Colors";
+import { commonFontStyle, SCREEN_WIDTH } from "../Themes/Fonts";
+import { EyePassword, LogoLoginScreen } from "../SvgIcons/IconSvg";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { useNavigation } from "@react-navigation/native";
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
+  const navigation = useNavigation();
 
   return (
     <View style={ApplicationStyles.applicationView}>
       <View style={styles.container}>
         <ImageBackground
           style={styles.imageBackground}
-          source={require('../Images/loginBackgroung.png')}></ImageBackground>
+          source={require("../Images/loginBackgroung.png")}
+        ></ImageBackground>
         <View style={styles.bottomView}>
           <View style={styles.logoLOgin}>
             <LogoLoginScreen />
@@ -36,8 +39,8 @@ export default function LoginScreen() {
               <TextInput
                 style={styles.textInput}
                 value={email}
-                onChangeText={text => setEmail(text)}
-                placeholder={'Enter Email Id'}
+                onChangeText={(text) => setEmail(text)}
+                placeholder={"Enter Email Id"}
                 placeholderTextColor={Colors.placeholderGray}
               />
             </View>
@@ -47,18 +50,22 @@ export default function LoginScreen() {
                 <TextInput
                   style={styles.textInputPwd}
                   value={password}
-                  onChangeText={text => setPassword(text)}
-                  placeholder={'Enter Password'}
+                  onChangeText={(text) => setPassword(text)}
+                  placeholder={"Enter Password"}
                   placeholderTextColor={Colors.placeholderGray}
                   secureTextEntry={isPasswordSecure}
                 />
                 <TouchableOpacity
-                  onPress={() => setIsPasswordSecure(!isPasswordSecure)}>
+                  onPress={() => setIsPasswordSecure(!isPasswordSecure)}
+                >
                   <EyePassword />
                 </TouchableOpacity>
               </View>
             </View>
-            <TouchableOpacity style={styles.loginbtn}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("BottomTab")}
+              style={styles.loginbtn}
+            >
               <Text style={styles.loginButtonText}>Login</Text>
             </TouchableOpacity>
           </View>
@@ -74,18 +81,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imageBackground: {
-    height: '80%',
+    height: "80%",
     width: SCREEN_WIDTH,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   bottomView: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     right: 0,
     left: 0,
   },
   logoLOgin: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   loginView: {
     backgroundColor: Colors.white,
@@ -125,9 +132,9 @@ const styles = StyleSheet.create({
     marginBottom: hp(1.5),
     marginTop: 6,
     backgroundColor: Colors.textInputBgColor,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: hp(2),
   },
   textInputPwd: {
@@ -140,8 +147,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blue,
     borderRadius: 10,
     height: hp(7),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: hp(6),
     marginBottom: hp(2),
   },

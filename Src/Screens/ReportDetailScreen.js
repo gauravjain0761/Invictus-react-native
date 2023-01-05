@@ -78,7 +78,7 @@ export default function ReportDetailScreen() {
               <Text numberOfLines={1} style={styles.topTitle}>
                 Kajani Exim LLP
               </Text>
-              <Text style={styles.descriptionHeader}>Sales</Text>
+              <Text style={styles.descriptionHeader}>Sales by Category</Text>
             </View>
             <View style={styles.dropdownView}>
               <Dropdown
@@ -200,7 +200,7 @@ const screenStyles = StyleSheet.create({
     flexDirection: "row",
   },
   infoText: {
-    ...commonFontStyle(400, 10, Colors.darkBlueFont),
+    ...commonFontStyle(400, 12, Colors.darkBlueFont),
     paddingLeft: hp(1),
   },
   textItem: {

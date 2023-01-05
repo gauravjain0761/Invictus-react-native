@@ -1,4 +1,6 @@
 import {
+  Linking,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,6 +20,12 @@ export default function LossesScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const onCall = () => {
+    let phoneNumber = "";
+
+    Linking.openURL("tel:1234567890");
+  };
+
   return (
     <View style={ApplicationStyles.containerPadding}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -25,7 +33,7 @@ export default function LossesScreen() {
           <Text numberOfLines={1} style={styles.topTitle}>
             Kajani Exim LLP
           </Text>
-          <Text style={styles.descriptionHeader}>Reports</Text>
+          <Text style={styles.descriptionHeader}>Losses</Text>
         </View>
         <View>
           <View style={styles.rupeeView}>
@@ -36,7 +44,10 @@ export default function LossesScreen() {
               Your estimated monthly looses are
             </Text>
             <Text style={styles.rsText}>₹ 6,2000/-</Text>
-            <TouchableOpacity style={styles.blueButton}>
+            <TouchableOpacity
+              onPress={() => onCall()}
+              style={styles.blueButton}
+            >
               <CallIcon />
               <Text style={styles.btnText}>Talk to Somebody Now</Text>
             </TouchableOpacity>

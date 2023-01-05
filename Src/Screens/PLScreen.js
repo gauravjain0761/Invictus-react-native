@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Linking,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -67,7 +68,9 @@ export default function PLScreen() {
               <Text numberOfLines={1} style={styles.topTitle}>
                 Kajani Exim LLP
               </Text>
-              <Text style={styles.descriptionHeader}>Sales</Text>
+              <Text style={styles.descriptionHeader}>
+                Profit and losses report
+              </Text>
             </View>
             <View style={styles.dropdownView}>
               <Dropdown
@@ -165,7 +168,18 @@ export default function PLScreen() {
             <Text style={styles.profitRsText}>10%</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.reportBtn}>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL('"whatsapp://send?text=hello&phone=7568547177"')
+              .then((data) => {
+                console.log("WhatsApp Opened");
+              })
+              .catch(() => {
+                alert("Make sure WhatsApp installed on your device");
+              });
+          }}
+          style={styles.reportBtn}
+        >
           <ReportDownloadIcon />
           <Text style={styles.reportText}>Report</Text>
         </TouchableOpacity>
