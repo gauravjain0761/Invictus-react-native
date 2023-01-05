@@ -15,5 +15,7 @@ const Colors = {
   green: "#54B972",
   returnBtnBgColor: "#EBF2FF",
   deviderLine: "rgba(128, 128, 128, 0.2)",
+  lightRedBgColor: "rgba(239, 106, 96, 0.1)",
+  lightGreenBgColor: "rgba(84, 185, 114, 0.1)",
 };
 export default Colors;

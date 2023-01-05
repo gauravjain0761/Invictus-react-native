@@ -23,19 +23,14 @@ import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
 import Chart from "../Components/Chart";
 const data = [
-  { label: "Last Week 1", value: "1" },
-  { label: "Last Week 2", value: "2" },
-  { label: "Last Week 3", value: "3" },
-  { label: "Last Week 4", value: "4" },
-  { label: "Last Week 5", value: "5" },
-  { label: "Last Week 6", value: "6" },
-  { label: "Last Week 7", value: "7" },
-  { label: "Last Week 8", value: "8" },
+  { label: "Last Week", value: "1" },
+  { label: "Last Month", value: "2" },
+  { label: "Last Year", value: "3" },
 ];
 export default function DashboardScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [value, setValue] = useState({ label: "Last Week 1", value: "1" });
+  const [value, setValue] = useState({ label: "Last Week", value: "1" });
 
   navigation.setOptions({
     headerRight: () => (
@@ -160,10 +155,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.dropDownBgColor,
     borderRadius: 100,
     paddingHorizontal: hp(2),
-    paddingVertical: hp(0.5),
+    paddingVertical: hp(0.2),
   },
   TitleTextStyle: {
-    ...commonFontStyle(500, 14, Colors.blueOpacityFont),
+    ...commonFontStyle(500, 12, Colors.blueOpacityFont),
   },
   heading: {
     width: "60%",

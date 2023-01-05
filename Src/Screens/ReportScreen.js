@@ -26,7 +26,10 @@ export default function ReportScreen() {
 
   const RenderRow = ({ name, action }) => {
     return (
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("ReportDetailScreen")}
+        style={styles.row}
+      >
         <Text style={styles.rowText}>{name}</Text>
         <RightArrowIcon />
       </TouchableOpacity>
@@ -52,6 +55,8 @@ export default function ReportScreen() {
           <RenderRow name={"Top Selling SKUs"} />
           <View style={styles.horizontalLine}></View>
           <RenderRow name={"Top Selling Category"} />
+          <View style={styles.horizontalLine}></View>
+          <RenderRow name={"Slow Selling SKUs"} />
         </View>
         <View style={ApplicationStyles.chartCard}>
           <View style={styles.headerTitleView}>
@@ -60,6 +65,9 @@ export default function ReportScreen() {
             </Text>
             <ProfitReportIcon />
           </View>
+          <RenderRow name={"Most Profitable SKUs"} />
+          <View style={styles.horizontalLine}></View>
+          <RenderRow name={"Category Profitability"} />
         </View>
         <View style={ApplicationStyles.chartCard}>
           <View style={styles.headerTitleView}>
@@ -68,6 +76,11 @@ export default function ReportScreen() {
             </Text>
             <ReturnReportIcon />
           </View>
+          <RenderRow name={"Most Returned SKUs"} />
+          <View style={styles.horizontalLine}></View>
+          <RenderRow name={"SKUs with highest return charges"} />
+          <View style={styles.horizontalLine}></View>
+          <RenderRow name={"Category wise return %"} />
         </View>
       </ScrollView>
     </View>
@@ -85,17 +98,21 @@ const styles = StyleSheet.create({
   headerTitleView: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: hp(1),
   },
   rowText: {
     ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
+    paddingTop: hp(1.2),
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    paddingHorizontal: 5,
   },
   horizontalLine: {
     height: 1,
     backgroundColor: Colors.deviderLine,
+    marginTop: hp(1.2),
   },
 });

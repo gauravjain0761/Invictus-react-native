@@ -9,6 +9,7 @@ import ReportScreen from "../Screens/ReportScreen";
 import LossesScreen from "../Screens/LossesScreen";
 import { Image, TouchableOpacity, StyleSheet } from "react-native";
 import {
+  BackIcon,
   DashboardTabIcon,
   LossesTabIcon,
   PLTabIcon,
@@ -17,6 +18,7 @@ import {
 import Colors from "../Themes/Colors";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { commonFontStyle } from "../Themes/Fonts";
+import ReportDetailScreen from "../Screens/ReportDetailScreen";
 
 const CustomTabButton = (props) => (
   <TouchableOpacity
@@ -49,6 +51,37 @@ const transparentHeader = {
   headerShadowVisible: false,
 };
 
+const ReportStack = createNativeStackNavigator();
+function ReportNavigation() {
+  return (
+    <ReportStack.Navigator>
+      <ReportStack.Screen
+        options={{ ...transparentHeader, ...data }}
+        component={ReportScreen}
+        name={"ReportScreen"}
+      />
+      <ReportStack.Screen
+        options={({ navigation }) => ({
+          ...transparentHeader,
+          ...data,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                paddingVertical: 10,
+                paddingRight: 20,
+              }}
+            >
+              <BackIcon />
+            </TouchableOpacity>
+          ),
+        })}
+        component={ReportDetailScreen}
+        name={"ReportDetailScreen"}
+      />
+    </ReportStack.Navigator>
+  );
+}
 const Tab = createBottomTabNavigator();
 function BottomTab() {
   return (
@@ -101,12 +134,11 @@ function BottomTab() {
           tabBarIcon: ({ color }) => {
             return <ReportTabIcon color={color} />;
           },
-          ...transparentHeader,
-          ...data,
+          headerShown: false,
           tabBarLabel: "Reports",
         }}
-        name="ReportScreen"
-        component={ReportScreen}
+        name="ReportNavigation"
+        component={ReportNavigation}
       />
       <Tab.Screen
         options={{
@@ -150,7 +182,10 @@ export default function Navigation() {
 }
 const styles = StyleSheet.create({
   logoHeader: {
-    height: hp(4),
+    height: 32,
+    // flex: 1,
+    width: 154,
+    // backgroundColor: "red",
     resizeMode: "contain",
   },
 });
