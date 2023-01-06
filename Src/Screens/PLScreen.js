@@ -170,12 +170,14 @@ export default function PLScreen() {
         </View>
         <TouchableOpacity
           onPress={() => {
-            Linking.openURL('"whatsapp://send?text=hello&phone=7568547177"')
+            let url =
+              "whatsapp://send?text=" + "Hello" + "&phone=91" + "7568547177";
+            Linking.openURL(url)
               .then((data) => {
                 console.log("WhatsApp Opened");
               })
               .catch(() => {
-                alert("Make sure WhatsApp installed on your device");
+                alert("Make sure Whatsapp installed on your device");
               });
           }}
           style={styles.reportBtn}

@@ -2,7 +2,12 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { SCREEN_WIDTH } from "../Themes/Fonts";
 import Colors from "../Themes/Colors";
-import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+import {
+  VictoryBar,
+  VictoryChart,
+  VictoryLabel,
+  VictoryTheme,
+} from "victory-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 export default function Chart() {
@@ -29,9 +34,10 @@ export default function Chart() {
           }}
           cornerRadius={{ top: 5 }}
           data={data}
-          alignment={"start"}
+          // alignment={"start"}
           x="quarter"
           y="earnings"
+          labels={({ datum }) => `${datum.earnings}`}
         />
       </VictoryChart>
     </View>
