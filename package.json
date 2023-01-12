@@ -1,11 +1,10 @@
 {
   "name": "invictus",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -14,13 +13,14 @@
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",
     "@reduxjs/toolkit": "^1.9.1",
-    "expo": "~47.0.9",
+    "expo": "~47.0.12",
     "expo-font": "~11.0.1",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "moment": "^2.29.4",
     "react": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-charts-wrapper": "^0.5.11",
     "react-native-element-dropdown": "^2.5.3",
     "react-native-modal-datetime-picker": "^14.0.1",
     "react-native-responsive-screen": "^1.4.2",
