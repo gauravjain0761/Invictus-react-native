@@ -169,6 +169,7 @@ class Chart extends React.Component {
             gridBackgroundColor={processColor("#ffffff")}
             visibleRange={{ x: { min: 6, max: 6 } }}
             yAxis={this.state.yAxis}
+            chartDescription={{ text: "" }}
             // drawBarShadow={false}
             // drawValueAboveBar={true}
             // drawHighlightArrow={true}
