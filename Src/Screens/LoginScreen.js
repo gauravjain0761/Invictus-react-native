@@ -13,14 +13,39 @@ import { commonFontStyle, SCREEN_WIDTH } from "../Themes/Fonts";
 import { EyePassword, LogoLoginScreen } from "../SvgIcons/IconSvg";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { userLogin } from "../Actions/authActions";
+import Loader from "../Components/Loader";
+import { getToken } from "../Helper/global";
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("naquash@kajaniexim.com");
+  const [password, setPassword] = useState("Password123#");
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const onPressLoginButton = () => {
+    setIsLoading(true);
+    const request = {
+      data: {
+        e: email,
+        p: password,
+      },
+      onSuccess: (res) => {
+        setIsLoading(false);
+        navigation.navigate("BottomTab");
+      },
+      onFail: () => {
+        setIsLoading(false);
+      },
+    };
+    dispatch(userLogin(request));
+  };
 
   return (
     <View style={ApplicationStyles.applicationView}>
+      <Loader visible={isLoading} />
       <View style={styles.container}>
         <ImageBackground
           style={styles.imageBackground}
@@ -63,7 +88,8 @@ export default function LoginScreen() {
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => navigation.navigate("BottomTab")}
+              // onPress={() => navigation.navigate("BottomTab")}
+              onPress={onPressLoginButton}
               style={styles.loginbtn}
             >
               <Text style={styles.loginButtonText}>Login</Text>

@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { commonFontStyle, SCREEN_WIDTH } from "../Themes/Fonts";
 import Colors from "../Themes/Colors";
 import {
@@ -22,6 +22,10 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
 import Chart from "../Components/Chart";
+import NewChart from "../Components/NewChart";
+import { getDetails } from "../Actions/authActions";
+import Loader from "../Components/Loader";
+
 const data = [
   { label: "Last Week", value: "1" },
   { label: "Last Month", value: "2" },
@@ -30,7 +34,9 @@ const data = [
 export default function DashboardScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(true);
   const [value, setValue] = useState({ label: "Last Week", value: "1" });
+  const { allDetails } = useSelector((state) => state.common);
 
   navigation.setOptions({
     headerRight: () => (
@@ -43,11 +49,16 @@ export default function DashboardScreen() {
   });
 
   useEffect(() => {
-    dispatch({ type: "PRE_LOADER", payload: true });
+    const request = {
+      onSuccess: () => setIsLoading(false),
+      onFail: () => setIsLoading(false),
+    };
+    dispatch(getDetails(request));
   }, []);
 
   return (
     <View style={ApplicationStyles.containerPadding}>
+      <Loader visible={isLoading} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ApplicationStyles.chartCard}>
           <View style={styles.chartHeader}>
@@ -79,7 +90,8 @@ export default function DashboardScreen() {
               />
             </View>
           </View>
-          <Chart />
+          {/* <Chart /> */}
+          <NewChart />
         </View>
         <View style={styles.chartHeader}>
           <View style={styles.halfView}>
