@@ -42,3 +42,7 @@ export const getDetails = (request) => async (dispatch) => {
       if (request.onFail) request.onFail(error.response);
     });
 };
+
+export const setPeriodsList = (data) => async (dispatch) => {
+  dispatch({ type: "GET_PERIODS", payload: data });
+};

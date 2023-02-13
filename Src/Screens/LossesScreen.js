@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Linking,
   Platform,
   ScrollView,
@@ -7,23 +8,36 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import ApplicationStyles from "../Themes/ApplicationStyles";
 import { commonFontStyle } from "../Themes/Fonts";
 import Colors from "../Themes/Colors";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { CallIcon } from "../SvgIcons/IconSvg";
+import { useEffect } from "react";
+import { humanize } from "../Helper/global";
 
 export default function LossesScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { allDetails } = useSelector((state) => state.common);
+  const [tableData, setTableData] = useState([]);
+
+  console.log("allDetails", tableData);
+
+  useEffect(() => {
+    const entries = Object.entries(allDetails?.losses);
+    setTableData(entries);
+  }, []);
 
   const onCall = () => {
-    let phoneNumber = "";
-
-    Linking.openURL("tel:1234567890");
+    let phoneNumber = allDetails?.sales_person_mobile_number;
+    Linking.openURL("tel:" + phoneNumber);
   };
 
   return (
@@ -31,28 +45,64 @@ export default function LossesScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ApplicationStyles.chartCard}>
           <Text numberOfLines={1} style={styles.topTitle}>
-            Kajani Exim LLP
+            {allDetails?.seller_name}
           </Text>
           <Text style={styles.descriptionHeader}>Losses</Text>
         </View>
-        <View>
-          <View style={styles.rupeeView}>
-            <Text style={styles.textRupee}>₹</Text>
+        {allDetails?.show_losses_table ? (
+          <View style={{ ...ApplicationStyles.chartCard, marginBottom: hp(2) }}>
+            <FlatList
+              data={tableData}
+              renderItem={({ item, index }) => {
+                return (
+                  <View style={styles.rowStyle}>
+                    <Text
+                      style={{
+                        ...commonFontStyle(500, 14, Colors.darkBlueFont),
+                        flex: 1,
+                      }}
+                    >
+                      {humanize(item?.[0])}
+                    </Text>
+                    <View style={{ width: wp(5) }} />
+                    <Text
+                      style={{
+                        ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
+                        flex: 0.7,
+                      }}
+                    >
+                      {item?.[1]}
+                    </Text>
+                  </View>
+                );
+              }}
+              ItemSeparatorComponent={() => (
+                <View style={styles.itemSeparatorStyle} />
+              )}
+            />
           </View>
-          <View style={styles.redView}>
-            <Text style={styles.titleRedView}>
-              Your estimated monthly looses are
-            </Text>
-            <Text style={styles.rsText}>₹ 6,2000/-</Text>
-            <TouchableOpacity
-              onPress={() => onCall()}
-              style={styles.blueButton}
-            >
-              <CallIcon />
-              <Text style={styles.btnText}>Talk to Somebody Now</Text>
-            </TouchableOpacity>
+        ) : (
+          <View>
+            <View style={styles.rupeeView}>
+              <Text style={styles.textRupee}>₹</Text>
+            </View>
+            <View style={styles.redView}>
+              <Text style={styles.titleRedView}>
+                Your estimated monthly looses are
+              </Text>
+              <Text style={styles.rsText}>
+                ₹ {allDetails?.losses?.["Total Losses"]}/-
+              </Text>
+              <TouchableOpacity
+                onPress={() => onCall()}
+                style={styles.blueButton}
+              >
+                <CallIcon />
+                <Text style={styles.btnText}>Talk to Somebody Now</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -105,4 +155,13 @@ const styles = StyleSheet.create({
     paddingVertical: hp(1.5),
   },
   btnText: { ...commonFontStyle(500, 12, Colors.white), paddingLeft: hp(1) },
+  rowStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  itemSeparatorStyle: {
+    borderWidth: 0.5,
+    marginVertical: hp(1),
+    borderColor: Colors.grayFont,
+  },
 });

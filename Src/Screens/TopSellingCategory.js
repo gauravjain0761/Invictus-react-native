@@ -10,20 +10,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { commonFontStyle, SCREEN_WIDTH } from "../Themes/Fonts";
 import Colors from "../Themes/Colors";
-import {
-  CalenderIcon,
-  DownloadIcon,
-  InfoIcon,
-  ReportDownloadIcon,
-} from "../SvgIcons/IconSvg";
+import { InfoIcon, ReportDownloadIcon } from "../SvgIcons/IconSvg";
 import { useNavigation } from "@react-navigation/native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
-import Chart from "../Components/Chart";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import moment from "moment";
 import { styles } from "./PLScreen";
+import { humanize } from "../Helper/global";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -31,7 +25,7 @@ const data = [
   { label: "Last Year", value: "3" },
 ];
 
-export default function ReportDetailScreen() {
+export default function TopSellingCategory() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [value, setValue] = useState();
@@ -46,15 +40,27 @@ export default function ReportDetailScreen() {
     setValue(periodsList[indexDate]);
   }, []);
 
+  const totalGross = allDetails?.top_selling_category[indexDate].reduce(
+    (previousScore, currentScore, index) =>
+      previousScore + currentScore.gross_sale,
+    0
+  );
+
+  const totalGrossCount = allDetails?.top_selling_category[indexDate].reduce(
+    (previousScore, currentScore, index) =>
+      previousScore + currentScore.gross_sale_count,
+    0
+  );
+
   const RenderRow = ({ title, rs, per }) => {
     return (
       <View style={styles.salesRow}>
         <View style={screenStyles.leftView}>
-          <Text style={screenStyles.categoryText}>{title}</Text>
+          <Text style={screenStyles.categoryText}>{humanize(title)}</Text>
         </View>
         <View style={screenStyles.middleView}>
-          <Text style={screenStyles.categoryText}>
-            {"₹ "}
+          <Text numberOfLines={1} style={screenStyles.categoryText}>
+            {/* {"₹ "} */}
             {rs}
           </Text>
         </View>
@@ -87,7 +93,7 @@ export default function ReportDetailScreen() {
           <View style={styles.chartHeader}>
             <View style={styles.heading}>
               <Text numberOfLines={1} style={styles.topTitle}>
-                Kajani Exim LLP
+                {allDetails?.seller_name}
               </Text>
               <Text style={styles.descriptionHeader}>Sales by Category</Text>
             </View>
@@ -115,74 +121,80 @@ export default function ReportDetailScreen() {
             </View>
           </View>
           {/* <View style={styles.datePickerMainView}>
-            <TouchableOpacity
-              onPress={() => {
-                setIsDatePickerVisible(true), setDateTyppe("start");
-              }}
-              style={styles.dateView}
-            >
-              <Text style={styles.dateText}>
-                {startDate !== ""
-                  ? moment(startDate).format("MM/DD/YY")
-                  : "Select -"}
-              </Text>
-              <CalenderIcon />
-            </TouchableOpacity>
-            <Text style={styles.toText}>to</Text>
-            <TouchableOpacity
-              onPress={() => {
-                setIsDatePickerVisible(true), setDateTyppe("end");
-              }}
-              style={styles.dateView}
-            >
-              <Text style={styles.dateText}>
-                {endDate !== ""
-                  ? moment(endDate).format("MM/DD/YY")
-                  : "Select -"}
-              </Text>
-              <CalenderIcon />
-            </TouchableOpacity>
-          </View> */}
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsDatePickerVisible(true), setDateTyppe("start");
+                  }}
+                  style={styles.dateView}
+                >
+                  <Text style={styles.dateText}>
+                    {startDate !== ""
+                      ? moment(startDate).format("MM/DD/YY")
+                      : "Select -"}
+                  </Text>
+                  <CalenderIcon />
+                </TouchableOpacity>
+                <Text style={styles.toText}>to</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsDatePickerVisible(true), setDateTyppe("end");
+                  }}
+                  style={styles.dateView}
+                >
+                  <Text style={styles.dateText}>
+                    {endDate !== ""
+                      ? moment(endDate).format("MM/DD/YY")
+                      : "Select -"}
+                  </Text>
+                  <CalenderIcon />
+                </TouchableOpacity>
+              </View> */}
         </View>
-        {allDetails?.top_selling_skus[indexDate].length ? (
-          <View style={ApplicationStyles.chartCardWithourPadding}>
-            <View style={styles.headingRow}>
-              <View style={styles.chartHeader}>
-                <View style={screenStyles.leftView}>
-                  <Text style={screenStyles.title}>{"Sku"}</Text>
-                </View>
-                <View style={screenStyles.middleView}>
-                  <Text style={screenStyles.title}>{"Gross Sale"}</Text>
-                </View>
-                <View style={screenStyles.rightView}>
-                  <Text style={screenStyles.title}>{"Gross Sale Count"}</Text>
-                </View>
+        <View style={ApplicationStyles.chartCardWithourPadding}>
+          <View style={styles.headingRow}>
+            <View style={styles.chartHeader}>
+              <View style={screenStyles.leftView}>
+                <Text style={screenStyles.title}>{"Category"}</Text>
+              </View>
+              <View style={screenStyles.middleView}>
+                <Text style={screenStyles.title}>{"Gross Sale"}</Text>
+              </View>
+              <View style={screenStyles.rightView}>
+                <Text style={screenStyles.title}>{"Gross Sale Count"}</Text>
               </View>
             </View>
-            <FlatList
-              data={allDetails?.top_selling_skus[indexDate]}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, index }) => {
-                return (
-                  <RenderRow
-                    title={item?.sku}
-                    rs={item?.gross_sale}
-                    per={item?.gross_sale_count}
-                  />
-                );
-              }}
-            />
-            <View style={styles.netExpenseRow}>
-              <Text style={screenStyles.leftTextExpense}>{"Total"}</Text>
-              <Text style={screenStyles.middleTextExpense}>
-                {"₹ 45,00,000"}
-              </Text>
-              <Text style={screenStyles.rightTextExpense}>{"100%"}</Text>
-            </View>
           </View>
-        ) : (
-          <Text style={screenStyles.noTextStyle}>{"No Data Found"}</Text>
-        )}
+          <FlatList
+            data={allDetails?.top_selling_category[indexDate]}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item, index }) => {
+              return (
+                <RenderRow
+                  title={item?.category}
+                  rs={item?.gross_sale?.toFixed(1)}
+                  per={item?.gross_sale_count}
+                />
+              );
+            }}
+            ListFooterComponent={() => {
+              if (allDetails?.top_selling_category[indexDate].length === 0) {
+                return (
+                  <Text style={screenStyles.noTextStyle}>
+                    {"No Data Found"}
+                  </Text>
+                );
+              }
+            }}
+          />
+          <View style={styles.netExpenseRow}>
+            <Text style={screenStyles.leftTextExpense}>{"Total"}</Text>
+            <Text numberOfLines={1} style={screenStyles.middleTextExpense}>
+              {"₹ "}
+              {totalGross.toFixed(1)}
+            </Text>
+            <Text style={screenStyles.rightTextExpense}>{totalGrossCount}</Text>
+          </View>
+        </View>
 
         <View style={ApplicationStyles.chartCard}>
           <View style={screenStyles.infoView}>
@@ -239,5 +251,6 @@ const screenStyles = StyleSheet.create({
     ...commonFontStyle(500, 14, Colors.grayFont),
     padding: hp(2),
     textAlign: "center",
+    marginBottom: hp(2),
   },
 });

@@ -10,19 +10,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { commonFontStyle, SCREEN_WIDTH } from "../Themes/Fonts";
 import Colors from "../Themes/Colors";
-import {
-  CalenderIcon,
-  DownloadIcon,
-  InfoIcon,
-  ReportDownloadIcon,
-} from "../SvgIcons/IconSvg";
+import { InfoIcon, ReportDownloadIcon } from "../SvgIcons/IconSvg";
 import { useNavigation } from "@react-navigation/native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
-import Chart from "../Components/Chart";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import moment from "moment";
 import { styles } from "./PLScreen";
 
 const data = [
@@ -31,7 +27,7 @@ const data = [
   { label: "Last Year", value: "3" },
 ];
 
-export default function ReportDetailScreen() {
+export default function TopSellingSkusScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [value, setValue] = useState();
@@ -46,18 +42,53 @@ export default function ReportDetailScreen() {
     setValue(periodsList[indexDate]);
   }, []);
 
+  // let newData = [
+  //   {
+  //     sku: "FO_TG_MOTO G60_11D_1PK",
+  //     gross_sale: 34317.18,
+  //     gross_sale_count: 234,
+  //   },
+  //   {
+  //     sku: "GF_TG-6-MOTO G60/G40-21D-1PK",
+  //     gross_sale: 32517.3,
+  //     gross_sale_count: 252,
+  //   },
+  //   {
+  //     sku: "FO-TG_1 Sam SS22 Ultra 5G-UV_1PK.",
+  //     gross_sale: 28112.92,
+  //     gross_sale_count: 88,
+  //   },
+  // ];
+
+  // const totalGross = allDetails?.top_selling_skus[indexDate].reduce(
+  const totalGross = allDetails?.top_selling_skus[indexDate].reduce(
+    (previousScore, currentScore, index) =>
+      previousScore + currentScore.gross_sale,
+    0
+  );
+
+  const totalGrossCount = allDetails?.top_selling_skus[indexDate].reduce(
+    (previousScore, currentScore, index) =>
+      previousScore + currentScore.gross_sale_count,
+    0
+  );
+
   const RenderRow = ({ title, rs, per }) => {
     return (
       <View style={styles.salesRow}>
         <View style={screenStyles.leftView}>
-          <Text style={screenStyles.categoryText}>{title}</Text>
+          <Text numberOfLines={1} style={screenStyles.categoryText}>
+            {title}
+          </Text>
         </View>
+        <View style={screenStyles.marginStyle} />
         <View style={screenStyles.middleView}>
-          <Text style={screenStyles.categoryText}>
-            {"₹ "}
+          <Text numberOfLines={1} style={screenStyles.categoryText}>
+            {/* {"₹ "} */}
             {rs}
           </Text>
         </View>
+        <View style={screenStyles.marginStyle} />
         <View style={screenStyles.rightView}>
           <Text style={screenStyles.categoryText}>{per}</Text>
         </View>
@@ -87,7 +118,7 @@ export default function ReportDetailScreen() {
           <View style={styles.chartHeader}>
             <View style={styles.heading}>
               <Text numberOfLines={1} style={styles.topTitle}>
-                Kajani Exim LLP
+                {allDetails?.seller_name}
               </Text>
               <Text style={styles.descriptionHeader}>Sales by Category</Text>
             </View>
@@ -115,45 +146,47 @@ export default function ReportDetailScreen() {
             </View>
           </View>
           {/* <View style={styles.datePickerMainView}>
-            <TouchableOpacity
-              onPress={() => {
-                setIsDatePickerVisible(true), setDateTyppe("start");
-              }}
-              style={styles.dateView}
-            >
-              <Text style={styles.dateText}>
-                {startDate !== ""
-                  ? moment(startDate).format("MM/DD/YY")
-                  : "Select -"}
-              </Text>
-              <CalenderIcon />
-            </TouchableOpacity>
-            <Text style={styles.toText}>to</Text>
-            <TouchableOpacity
-              onPress={() => {
-                setIsDatePickerVisible(true), setDateTyppe("end");
-              }}
-              style={styles.dateView}
-            >
-              <Text style={styles.dateText}>
-                {endDate !== ""
-                  ? moment(endDate).format("MM/DD/YY")
-                  : "Select -"}
-              </Text>
-              <CalenderIcon />
-            </TouchableOpacity>
-          </View> */}
+              <TouchableOpacity
+                onPress={() => {
+                  setIsDatePickerVisible(true), setDateTyppe("start");
+                }}
+                style={styles.dateView}
+              >
+                <Text style={styles.dateText}>
+                  {startDate !== ""
+                    ? moment(startDate).format("MM/DD/YY")
+                    : "Select -"}
+                </Text>
+                <CalenderIcon />
+              </TouchableOpacity>
+              <Text style={styles.toText}>to</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsDatePickerVisible(true), setDateTyppe("end");
+                }}
+                style={styles.dateView}
+              >
+                <Text style={styles.dateText}>
+                  {endDate !== ""
+                    ? moment(endDate).format("MM/DD/YY")
+                    : "Select -"}
+                </Text>
+                <CalenderIcon />
+              </TouchableOpacity>
+            </View> */}
         </View>
-        {allDetails?.top_selling_skus[indexDate].length ? (
+        <ScrollView horizontal>
           <View style={ApplicationStyles.chartCardWithourPadding}>
             <View style={styles.headingRow}>
               <View style={styles.chartHeader}>
                 <View style={screenStyles.leftView}>
                   <Text style={screenStyles.title}>{"Sku"}</Text>
                 </View>
+                <View style={screenStyles.marginStyle} />
                 <View style={screenStyles.middleView}>
                   <Text style={screenStyles.title}>{"Gross Sale"}</Text>
                 </View>
+                <View style={screenStyles.marginStyle} />
                 <View style={screenStyles.rightView}>
                   <Text style={screenStyles.title}>{"Gross Sale Count"}</Text>
                 </View>
@@ -166,23 +199,34 @@ export default function ReportDetailScreen() {
                 return (
                   <RenderRow
                     title={item?.sku}
-                    rs={item?.gross_sale}
+                    rs={Number(item?.gross_sale).toFixed(1)}
                     per={item?.gross_sale_count}
                   />
                 );
               }}
+              ListFooterComponent={() => {
+                if (allDetails?.top_selling_skus[indexDate].length === 0) {
+                  return (
+                    <Text style={screenStyles.noTextStyle}>
+                      {"No Data Found"}
+                    </Text>
+                  );
+                }
+              }}
             />
             <View style={styles.netExpenseRow}>
               <Text style={screenStyles.leftTextExpense}>{"Total"}</Text>
+              <View style={screenStyles.marginStyle} />
               <Text style={screenStyles.middleTextExpense}>
-                {"₹ 45,00,000"}
+                {Number(totalGross).toFixed(1)}
               </Text>
-              <Text style={screenStyles.rightTextExpense}>{"100%"}</Text>
+              <View style={screenStyles.marginStyle} />
+              <Text style={screenStyles.rightTextExpense}>
+                {totalGrossCount}
+              </Text>
             </View>
           </View>
-        ) : (
-          <Text style={screenStyles.noTextStyle}>{"No Data Found"}</Text>
-        )}
+        </ScrollView>
 
         <View style={ApplicationStyles.chartCard}>
           <View style={screenStyles.infoView}>
@@ -209,18 +253,19 @@ export default function ReportDetailScreen() {
 }
 
 const screenStyles = StyleSheet.create({
-  leftView: { width: "35%" },
-  middleView: { width: "35%" },
-  rightView: { width: "25%" },
+  leftView: { width: wp(70) },
+  middleView: { width: wp(22) },
+  rightView: { width: wp(30) },
+  marginStyle: { width: wp(4) },
   title: { ...commonFontStyle(500, 13, Colors.darkBlueFont) },
   categoryText: { ...commonFontStyle(400, 14, Colors.blueOpacity_8Font) },
-  leftTextExpense: { width: "35%", ...commonFontStyle(500, 16, Colors.red) },
+  leftTextExpense: { width: wp(70), ...commonFontStyle(500, 16, Colors.red) },
   middleTextExpense: {
-    width: "35%",
+    width: wp(22),
     ...commonFontStyle(500, 16, Colors.darkBlueFont),
   },
   rightTextExpense: {
-    width: "25%",
+    width: wp(30),
     ...commonFontStyle(500, 16, Colors.darkBlueFont),
   },
   infoView: {
@@ -239,5 +284,6 @@ const screenStyles = StyleSheet.create({
     ...commonFontStyle(500, 14, Colors.grayFont),
     padding: hp(2),
     textAlign: "center",
+    marginBottom: hp(2),
   },
 });

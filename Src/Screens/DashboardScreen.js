@@ -23,8 +23,10 @@ import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
 import Chart from "../Components/Chart";
 import NewChart from "../Components/NewChart";
-import { getDetails } from "../Actions/authActions";
+import { getDetails, setPeriodsList } from "../Actions/authActions";
 import Loader from "../Components/Loader";
+import moment from "moment";
+import { humanize } from "../Helper/global";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -35,8 +37,12 @@ export default function DashboardScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
-  const [value, setValue] = useState({ label: "Last Week", value: "1" });
+  const [dropdownData, setDropDownData] = useState([]);
+  const [value, setValue] = useState({});
   const { allDetails } = useSelector((state) => state.common);
+  const [indexDate, setIndexDate] = useState(0);
+  const [selectedButton, setSelectedButton] = useState("sales");
+  const [currentDashBoardData, setCurrentDashBoardData] = useState({});
 
   navigation.setOptions({
     headerRight: () => (
@@ -50,11 +56,39 @@ export default function DashboardScreen() {
 
   useEffect(() => {
     const request = {
-      onSuccess: () => setIsLoading(false),
+      onSuccess: (res) => {
+        setCurrentDashBoardData(res.dashboard["sales"][indexDate]);
+        setIsLoading(false);
+        setValue({
+          label:
+            res.periods[indexDate][indexDate].start_date +
+            "-" +
+            res.periods[indexDate][indexDate].end_date,
+          value: 0,
+        });
+        let newData = [];
+        res.periods.map((i, index) => {
+          let obj = {
+            value: index,
+            label:
+              moment(i[index]["start_date"]).format("DD-MM-YYYY") +
+              "-" +
+              moment(i[index]["end_date"]).format("DD-MM-YYYY"),
+          };
+          newData.push(obj);
+          dispatch(setPeriodsList(newData));
+          setDropDownData(newData);
+        });
+      },
       onFail: () => setIsLoading(false),
     };
     dispatch(getDetails(request));
   }, []);
+
+  const onPressButtons = (type) => {
+    setSelectedButton(type);
+    setCurrentDashBoardData(allDetails.dashboard[type][indexDate]);
+  };
 
   return (
     <View style={ApplicationStyles.containerPadding}>
@@ -64,14 +98,14 @@ export default function DashboardScreen() {
           <View style={styles.chartHeader}>
             <View style={styles.heading}>
               <Text numberOfLines={1} style={styles.topTitle}>
-                Kajani Exim LLP
+                {allDetails?.seller_name}
               </Text>
               <Text style={styles.descriptionHeader}>Sales</Text>
             </View>
             <View style={styles.dropdownView}>
               <Dropdown
                 style={styles.tradetypeviewStyle}
-                data={data}
+                data={dropdownData}
                 selectedTextStyle={[styles.TitleTextStyle]}
                 maxHeight={200}
                 labelField="label"
@@ -79,10 +113,14 @@ export default function DashboardScreen() {
                 value={value}
                 placeholder={""}
                 onChange={(item) => {
-                  setValue(item.value);
+                  setValue(item);
+                  setIndexDate(item.value);
+                  setCurrentDashBoardData(
+                    allDetails.dashboard[selectedButton][item.value]
+                  );
                 }}
                 renderItem={(item) => (
-                  <View>
+                  <View style={{}}>
                     <Text style={styles.textItem}>{item.label}</Text>
                   </View>
                 )}
@@ -99,8 +137,14 @@ export default function DashboardScreen() {
               <View style={styles.rupeeIcon}>
                 <RupeeIcon />
               </View>
-              <Text style={styles.cardDes}>Total Sales</Text>
-              <Text style={styles.rupees}>₹ 6,200</Text>
+              <View style={{ height: hp(6) }}>
+                <Text numberOfLines={2} style={styles.cardDes}>
+                  {humanize(Object.keys(currentDashBoardData)?.[0])}
+                </Text>
+              </View>
+              <Text style={styles.rupees}>
+                {Object.values(currentDashBoardData)?.[0]?.toFixed(1)}
+              </Text>
             </View>
           </View>
           <View style={styles.halfView}>
@@ -108,35 +152,88 @@ export default function DashboardScreen() {
               <View style={styles.unitIcon}>
                 <UnitIcon />
               </View>
-              <Text style={styles.cardDes}>Total Units</Text>
-              <Text style={styles.rupees}>3,200</Text>
+              <View style={{ height: hp(6) }}>
+                <Text style={styles.cardDes}>
+                  {humanize(Object.keys(currentDashBoardData)?.[1])}
+                </Text>
+              </View>
+              <Text style={styles.rupees}>
+                {Object.values(currentDashBoardData)?.[1]?.toFixed(1)}
+              </Text>
             </View>
           </View>
         </View>
         <View style={styles.chartHeader}>
-          <View style={[styles.halfView, styles.buttonViewGross]}>
+          <TouchableOpacity
+            onPress={() => onPressButtons("sales")}
+            style={[
+              styles.halfView,
+              selectedButton === "sales"
+                ? styles.buttonViewGross
+                : styles.buttonViewReturn,
+            ]}
+          >
             <GrossProfitIcon />
             <Text
               style={{
                 paddingLeft: 8,
-                ...commonFontStyle(500, 16, Colors.white),
+                ...commonFontStyle(
+                  500,
+                  16,
+                  selectedButton === "sales" ? Colors.white : Colors.blue
+                ),
               }}
             >
-              Gross Profit
+              {"Sales"}
             </Text>
-          </View>
-          <View style={[styles.halfView, styles.buttonViewReturn]}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => onPressButtons("gross_profit")}
+            style={[
+              styles.halfView,
+              selectedButton === "gross_profit"
+                ? styles.buttonViewGross
+                : styles.buttonViewReturn,
+            ]}
+          >
             <ReturnIcon />
             <Text
               style={{
                 paddingLeft: 8,
-                ...commonFontStyle(500, 16, Colors.blue),
+                ...commonFontStyle(
+                  500,
+                  16,
+                  selectedButton === "gross_profit" ? Colors.white : Colors.blue
+                ),
               }}
             >
-              Return %
+              {"Gross Profit"}
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          onPress={() => onPressButtons("returns")}
+          style={[
+            styles.halfView,
+            selectedButton === "returns"
+              ? styles.buttonViewGross
+              : styles.buttonViewReturn,
+          ]}
+        >
+          <ReturnIcon />
+          <Text
+            style={{
+              paddingLeft: 8,
+              ...commonFontStyle(
+                500,
+                16,
+                selectedButton === "returns" ? Colors.white : Colors.blue
+              ),
+            }}
+          >
+            Return %
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

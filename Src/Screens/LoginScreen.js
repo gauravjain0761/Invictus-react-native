@@ -12,11 +12,12 @@ import Colors from "../Themes/Colors";
 import { commonFontStyle, SCREEN_WIDTH } from "../Themes/Fonts";
 import { EyePassword, LogoLoginScreen } from "../SvgIcons/IconSvg";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../Actions/authActions";
 import Loader from "../Components/Loader";
 import { getToken } from "../Helper/global";
+import { useEffect } from "react";
 export default function LoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("naquash@kajaniexim.com");
@@ -34,13 +35,34 @@ export default function LoginScreen() {
       },
       onSuccess: (res) => {
         setIsLoading(false);
-        navigation.navigate("BottomTab");
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: "BottomTab" }],
+          })
+        );
       },
       onFail: () => {
         setIsLoading(false);
       },
     };
     dispatch(userLogin(request));
+  };
+
+  useEffect(() => {
+    getNavigate();
+  }, []);
+
+  const getNavigate = async () => {
+    const userToken = await getToken();
+    if (userToken !== null) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: "BottomTab" }],
+        })
+      );
+    }
   };
 
   return (

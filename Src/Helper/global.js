@@ -32,5 +32,18 @@ export const makeAPIRequest = ({ method, url, data, headers, params }) =>
 
 export const getToken = async () => {
   let token = await AsyncStorage.getItem("@token");
-  return token;
+  if (token) {
+    return token;
+  } else {
+    return null;
+  }
 };
+
+export function humanize(str) {
+  var i,
+    frags = str?.split("_");
+  for (i = 0; i < frags?.length; i++) {
+    frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+  }
+  return frags?.join(" ");
+}

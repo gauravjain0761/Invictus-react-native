@@ -6,7 +6,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import ApplicationStyles from "../Themes/ApplicationStyles";
 import { commonFontStyle } from "../Themes/Fonts";
@@ -23,13 +23,11 @@ import {
 export default function ReportScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { allDetails } = useSelector((state) => state.common);
 
-  const RenderRow = ({ name, action }) => {
+  const RenderRow = ({ name, onPress }) => {
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate("ReportDetailScreen")}
-        style={styles.row}
-      >
+      <TouchableOpacity onPress={onPress} style={styles.row}>
         <Text style={styles.rowText}>{name}</Text>
         <RightArrowIcon />
       </TouchableOpacity>
@@ -41,7 +39,7 @@ export default function ReportScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ApplicationStyles.chartCard}>
           <Text numberOfLines={1} style={styles.topTitle}>
-            Kajani Exim LLP
+            {allDetails?.seller_name}
           </Text>
           <Text style={styles.descriptionHeader}>Reports</Text>
         </View>
@@ -52,9 +50,15 @@ export default function ReportScreen() {
             </Text>
             <SalesReportIcon />
           </View>
-          <RenderRow name={"Top Selling SKUs"} />
+          <RenderRow
+            name={"Top Selling SKUs"}
+            onPress={() => navigation.navigate("TopSellingSkusScreen")}
+          />
           <View style={styles.horizontalLine}></View>
-          <RenderRow name={"Top Selling Category"} />
+          <RenderRow
+            name={"Top Selling Category"}
+            onPress={() => navigation.navigate("TopSellingCategory")}
+          />
           <View style={styles.horizontalLine}></View>
           <RenderRow name={"Slow Selling SKUs"} />
         </View>
@@ -76,11 +80,17 @@ export default function ReportScreen() {
             </Text>
             <ReturnReportIcon />
           </View>
-          <RenderRow name={"Most Returned SKUs"} />
+          <RenderRow
+            name={"Most Returned SKUs"}
+            onPress={() => navigation.navigate("MostReturnedSkus")}
+          />
           <View style={styles.horizontalLine}></View>
           <RenderRow name={"SKUs with highest return charges"} />
           <View style={styles.horizontalLine}></View>
-          <RenderRow name={"Category wise return %"} />
+          <RenderRow
+            name={"Category wise return %"}
+            onPress={() => navigation.navigate("CategoryWiseReturn")}
+          />
         </View>
       </ScrollView>
     </View>

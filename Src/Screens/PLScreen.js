@@ -7,7 +7,7 @@ import {
   Linking,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { commonFontStyle, SCREEN_WIDTH } from "../Themes/Fonts";
 import Colors from "../Themes/Colors";
 import { CalenderIcon, ReportDownloadIcon } from "../SvgIcons/IconSvg";
@@ -33,6 +33,13 @@ export default function PLScreen() {
   const [dateTyppe, setDateTyppe] = useState("start");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [indexDate, setIndexDate] = useState(0);
+
+  const { allDetails, periodsList } = useSelector((state) => state.common);
+
+  useEffect(() => {
+    setValue(periodsList[indexDate]);
+  }, []);
 
   const handleConfirm = (date) => {
     if (dateTyppe == "start") {
@@ -51,12 +58,38 @@ export default function PLScreen() {
   const RenderRow = ({ title, rs, pr }) => {
     return (
       <View style={styles.salesRow}>
-        <Text style={styles.leftTextRow}>{title}</Text>
-        <Text style={styles.middleText}>{rs}</Text>
-        <Text style={styles.rightText}>{pr}</Text>
+        <Text numberOfLines={1} style={styles.leftTextRow}>
+          {title}
+        </Text>
+        <Text numberOfLines={1} style={styles.middleText}>
+          {/* {"₹ "} */}
+          {rs}
+        </Text>
+        <Text numberOfLines={1} style={styles.rightText}>
+          {pr}
+          {"%"}
+        </Text>
       </View>
     );
   };
+
+  let netExpenses =
+    allDetails?.pnl_report[indexDate].commission_fee +
+    allDetails?.pnl_report[indexDate].shipping_fee +
+    allDetails?.pnl_report[indexDate].reverse_shipping_fee +
+    allDetails?.pnl_report[indexDate].collection_fee +
+    allDetails?.pnl_report[indexDate].fixed_fee +
+    allDetails?.pnl_report[indexDate].pick_and_pack_fee +
+    allDetails?.pnl_report[indexDate].franchise_fee;
+
+  let percentage =
+    allDetails?.pnl_report[indexDate].commission_percentage +
+    allDetails?.pnl_report[indexDate].shipping_percentage +
+    allDetails?.pnl_report[indexDate].reverse_shipping_fee_percentage +
+    allDetails?.pnl_report[indexDate].collection_percentage +
+    allDetails?.pnl_report[indexDate].fixed_fee_percentage +
+    allDetails?.pnl_report[indexDate].pick_and_pack_fee_percentage +
+    allDetails?.pnl_report[indexDate].franchise_fee_percentage;
 
   return (
     <View style={ApplicationStyles.containerPadding}>
@@ -66,7 +99,7 @@ export default function PLScreen() {
           <View style={styles.chartHeader}>
             <View style={styles.heading}>
               <Text numberOfLines={1} style={styles.topTitle}>
-                Kajani Exim LLP
+                {allDetails?.seller_name}
               </Text>
               <Text style={styles.descriptionHeader}>
                 Profit and losses report
@@ -75,7 +108,7 @@ export default function PLScreen() {
             <View style={styles.dropdownView}>
               <Dropdown
                 style={styles.tradetypeviewStyle}
-                data={data}
+                data={periodsList}
                 selectedTextStyle={[styles.TitleTextStyle]}
                 maxHeight={200}
                 labelField="label"
@@ -83,7 +116,8 @@ export default function PLScreen() {
                 value={value}
                 placeholder={""}
                 onChange={(item) => {
-                  setValue(item.value);
+                  setValue(item);
+                  setIndexDate(item.value);
                 }}
                 renderItem={(item) => (
                   <View>
@@ -94,7 +128,7 @@ export default function PLScreen() {
               />
             </View>
           </View>
-          <View style={styles.datePickerMainView}>
+          {/* <View style={styles.datePickerMainView}>
             <TouchableOpacity
               onPress={() => {
                 setIsDatePickerVisible(true), setDateTyppe("start");
@@ -122,7 +156,7 @@ export default function PLScreen() {
               </Text>
               <CalenderIcon />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
         <View style={ApplicationStyles.chartCardWithourPadding}>
           <View style={styles.headingRow}>
@@ -130,48 +164,150 @@ export default function PLScreen() {
           </View>
           <View style={styles.salesRow}>
             <Text style={styles.leftText}>Sales</Text>
-            <Text style={styles.leftText}>₹ 50,00,000.00</Text>
+            <Text style={styles.leftText}>
+              ₹ {allDetails?.pnl_report[indexDate]?.sales?.toFixed(1)}
+            </Text>
+          </View>
+          <View style={styles.salesRow}>
+            <Text style={styles.leftText}>Spf Amount</Text>
+            <Text style={styles.leftText}>
+              ₹ {allDetails?.pnl_report[indexDate]?.spf_amount?.toFixed(1)}
+            </Text>
           </View>
           <View style={styles.netIncomRow}>
             <Text style={styles.netIncomText}>Net Income</Text>
-            <Text style={styles.netIncomText}>₹ 50,00,000.00</Text>
+            <Text style={styles.netIncomText}>
+              ₹{" "}
+              {allDetails?.pnl_report[indexDate]?.net_income_amount?.toFixed(1)}
+            </Text>
           </View>
         </View>
-        <View style={ApplicationStyles.chartCardWithourPadding}>
-          <View style={styles.headingRow}>
-            <Text style={styles.topTitle}>Cost Of Goods Sold</Text>
+
+        {allDetails?.pnl_report_shows_cogs && (
+          <View style={ApplicationStyles.chartCardWithourPadding}>
+            <View style={styles.headingRow}>
+              <Text style={styles.topTitle}>Cost Of Goods Sold</Text>
+            </View>
+            <RenderRow
+              title={"COGS"}
+              rs={allDetails?.pnl_report[indexDate].cogs?.toFixed(1) || ""}
+              pr={allDetails?.pnl_report[indexDate].cogs_percentage?.toFixed(1)}
+            />
           </View>
-          <RenderRow title={"COGS"} rs={"₹ 25,00,000"} pr={"8%"} />
-        </View>
+        )}
 
         <View style={ApplicationStyles.chartCardWithourPadding}>
           <View style={styles.headingRow}>
             <Text style={styles.topTitle}>Expenses</Text>
           </View>
-          <RenderRow title={"Commission"} rs={"₹ 10,00,000"} pr={"8%"} />
+          <RenderRow
+            title={"Commission "}
+            rs={
+              allDetails?.pnl_report[indexDate].commission_fee?.toFixed(1) || ""
+            }
+            pr={allDetails?.pnl_report[
+              indexDate
+            ].commission_percentage?.toFixed(1)}
+          />
+          <RenderRow
+            title={"Shipping "}
+            rs={
+              allDetails?.pnl_report[indexDate].shipping_fee?.toFixed(1) || ""
+            }
+            pr={allDetails?.pnl_report[indexDate].shipping_percentage?.toFixed(
+              1
+            )}
+          />
+          <RenderRow
+            title={"Reverse Shipping "}
+            rs={
+              allDetails?.pnl_report[indexDate].reverse_shipping_fee?.toFixed(
+                1
+              ) || ""
+            }
+            pr={allDetails?.pnl_report[
+              indexDate
+            ].reverse_shipping_fee_percentage?.toFixed(1)}
+          />
+          <RenderRow
+            title={"Collection "}
+            rs={
+              allDetails?.pnl_report[indexDate].collection_fee?.toFixed(1) || ""
+            }
+            pr={allDetails?.pnl_report[
+              indexDate
+            ].collection_percentage?.toFixed(1)}
+          />
+          <RenderRow
+            title={"Fixed "}
+            rs={allDetails?.pnl_report[indexDate].fixed_fee?.toFixed(1) || ""}
+            pr={allDetails?.pnl_report[indexDate].fixed_fee_percentage?.toFixed(
+              1
+            )}
+          />
+          <RenderRow
+            title={"Pick and Pack "}
+            rs={
+              allDetails?.pnl_report[indexDate].pick_and_pack_fee?.toFixed(1) ||
+              ""
+            }
+            pr={allDetails?.pnl_report[
+              indexDate
+            ].pick_and_pack_fee_percentage?.toFixed(1)}
+          />
+          <RenderRow
+            title={"Franchise"}
+            rs={
+              allDetails?.pnl_report[indexDate].franchise_fee?.toFixed(1) || ""
+            }
+            pr={allDetails?.pnl_report[
+              indexDate
+            ].franchise_fee_percentage?.toFixed(1)}
+          />
+          {/* <RenderRow title={"Commission"} rs={"₹ 10,00,000"} pr={"8%"} />
           <RenderRow title={"Shipping fee"} rs={"₹ 5,00,000"} pr={"7%"} />
           <RenderRow title={"Collection Free"} rs={"₹ 30,00,000"} pr={"6%"} />
-          <RenderRow title={"Fixed Fee"} rs={"₹ 80,00,000"} pr={"7%"} />
+          <RenderRow title={"Fixed Fee"} rs={"₹ 80,00,000"} pr={"7%"} /> */}
           <View style={styles.netExpenseRow}>
-            <Text style={styles.leftTextExpense}>{"Net Expenses"}</Text>
-            <Text style={styles.middleTextExpense}>{"₹ 1,50,00,000"}</Text>
-            <Text style={styles.rightTextExpense}>{"22%"}</Text>
+            <Text numberOfLines={1} style={styles.leftTextExpense}>
+              {"Net Expenses"}
+            </Text>
+            <Text numberOfLines={1} style={styles.middleTextExpense}>
+              {/* {"₹ "} */}
+              {netExpenses?.toFixed(1)}
+            </Text>
+            <Text numberOfLines={1} style={styles.rightTextExpense}>
+              {percentage.toFixed(1)}
+              {"%"}
+            </Text>
           </View>
         </View>
         <View style={styles.grossProfitView}>
           <View style={styles.grossRow}>
             <Text style={styles.profitText}>Gross Profit</Text>
-            <Text style={styles.profitRsText}>50,00,000</Text>
+            <Text style={styles.profitRsText}>
+              {allDetails?.pnl_report[indexDate].gross_profit_amount?.toFixed(
+                1
+              )}
+            </Text>
           </View>
           <View style={[styles.grossRow, { paddingTop: hp(1.5) }]}>
             <Text style={styles.profitText}>Gross Profit %</Text>
-            <Text style={styles.profitRsText}>10%</Text>
+            <Text style={styles.profitRsText}>
+              {allDetails?.pnl_report[
+                indexDate
+              ].gross_profit_percentage?.toFixed(1)}
+              %
+            </Text>
           </View>
         </View>
         <TouchableOpacity
           onPress={() => {
             let url =
-              "whatsapp://send?text=" + "Hello" + "&phone=91" + "7568547177";
+              "whatsapp://send?text=" +
+              "Hello" +
+              "&phone=91" +
+              allDetails?.sales_person_mobile_number;
             Linking.openURL(url)
               .then((data) => {
                 console.log("WhatsApp Opened");
@@ -273,11 +409,11 @@ export const styles = StyleSheet.create({
   },
   middleText: {
     ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
-    width: "45%",
+    width: "38%",
   },
   rightText: {
     ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
-    width: "11%",
+    width: "18%",
     textAlign: "right",
   },
   leftTextExpense: {
@@ -286,11 +422,11 @@ export const styles = StyleSheet.create({
   },
   middleTextExpense: {
     ...commonFontStyle(500, 16, Colors.darkBlueFont),
-    width: "45%",
+    width: "33%",
   },
   rightTextExpense: {
     ...commonFontStyle(500, 16, Colors.darkBlueFont),
-    width: "11%",
+    width: "25%",
     textAlign: "right",
   },
   netExpenseRow: {

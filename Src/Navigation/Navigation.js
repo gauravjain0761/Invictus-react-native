@@ -19,6 +19,10 @@ import Colors from "../Themes/Colors";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { commonFontStyle } from "../Themes/Fonts";
 import ReportDetailScreen from "../Screens/ReportDetailScreen";
+import TopSellingSkusScreen from "../Screens/TopSellingSkusScreen";
+import TopSellingCategory from "../Screens/TopSellingCategory";
+import MostReturnedSkus from "../Screens/MostReturnedSkus";
+import CategoryWiseReturn from "../Screens/CategoryWiseReturn";
 
 const CustomTabButton = (props) => (
   <TouchableOpacity
@@ -78,6 +82,82 @@ function ReportNavigation() {
         })}
         component={ReportDetailScreen}
         name={"ReportDetailScreen"}
+      />
+      <ReportStack.Screen
+        options={({ navigation }) => ({
+          ...transparentHeader,
+          ...data,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                paddingVertical: 10,
+                paddingRight: 20,
+              }}
+            >
+              <BackIcon />
+            </TouchableOpacity>
+          ),
+        })}
+        component={TopSellingSkusScreen}
+        name={"TopSellingSkusScreen"}
+      />
+      <ReportStack.Screen
+        options={({ navigation }) => ({
+          ...transparentHeader,
+          ...data,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                paddingVertical: 10,
+                paddingRight: 20,
+              }}
+            >
+              <BackIcon />
+            </TouchableOpacity>
+          ),
+        })}
+        component={TopSellingCategory}
+        name={"TopSellingCategory"}
+      />
+      <ReportStack.Screen
+        options={({ navigation }) => ({
+          ...transparentHeader,
+          ...data,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                paddingVertical: 10,
+                paddingRight: 20,
+              }}
+            >
+              <BackIcon />
+            </TouchableOpacity>
+          ),
+        })}
+        component={MostReturnedSkus}
+        name={"MostReturnedSkus"}
+      />
+      <ReportStack.Screen
+        options={({ navigation }) => ({
+          ...transparentHeader,
+          ...data,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                paddingVertical: 10,
+                paddingRight: 20,
+              }}
+            >
+              <BackIcon />
+            </TouchableOpacity>
+          ),
+        })}
+        component={CategoryWiseReturn}
+        name={"CategoryWiseReturn"}
       />
     </ReportStack.Navigator>
   );
