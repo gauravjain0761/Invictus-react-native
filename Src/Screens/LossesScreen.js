@@ -28,8 +28,6 @@ export default function LossesScreen() {
   const { allDetails } = useSelector((state) => state.common);
   const [tableData, setTableData] = useState([]);
 
-  console.log("allDetails", tableData);
-
   useEffect(() => {
     const entries = Object.entries(allDetails?.losses);
     setTableData(entries);
@@ -69,6 +67,7 @@ export default function LossesScreen() {
                       style={{
                         ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
                         flex: 0.7,
+                        textAlign: "right",
                       }}
                     >
                       {item?.[1]}
@@ -81,28 +80,28 @@ export default function LossesScreen() {
               )}
             />
           </View>
-        ) : (
-          <View>
-            <View style={styles.rupeeView}>
-              <Text style={styles.textRupee}>₹</Text>
-            </View>
-            <View style={styles.redView}>
-              <Text style={styles.titleRedView}>
-                Your estimated monthly looses are
-              </Text>
-              <Text style={styles.rsText}>
-                ₹ {allDetails?.losses?.["Total Losses"]}/-
-              </Text>
-              <TouchableOpacity
-                onPress={() => onCall()}
-                style={styles.blueButton}
-              >
-                <CallIcon />
-                <Text style={styles.btnText}>Talk to Somebody Now</Text>
-              </TouchableOpacity>
-            </View>
+        ) : null}
+
+        <View>
+          <View style={styles.rupeeView}>
+            <Text style={styles.textRupee}>₹</Text>
           </View>
-        )}
+          <View style={styles.redView}>
+            <Text style={styles.titleRedView}>
+              Your estimated monthly looses are
+            </Text>
+            <Text style={styles.rsText}>
+              ₹ {allDetails?.losses?.["Total Losses"]}/-
+            </Text>
+            <TouchableOpacity
+              onPress={() => onCall()}
+              style={styles.blueButton}
+            >
+              <CallIcon />
+              <Text style={styles.btnText}>Talk to Somebody Now</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
     </View>
   );

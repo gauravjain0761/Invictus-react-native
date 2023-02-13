@@ -83,14 +83,19 @@ export default function TopSellingSkusScreen() {
         </View>
         <View style={screenStyles.marginStyle} />
         <View style={screenStyles.middleView}>
-          <Text numberOfLines={1} style={screenStyles.categoryText}>
+          <Text
+            numberOfLines={1}
+            style={{ ...screenStyles.categoryText, textAlign: "right" }}
+          >
             {/* {"₹ "} */}
             {rs}
           </Text>
         </View>
         <View style={screenStyles.marginStyle} />
         <View style={screenStyles.rightView}>
-          <Text style={screenStyles.categoryText}>{per}</Text>
+          <Text style={{ ...screenStyles.categoryText, textAlign: "right" }}>
+            {per}
+          </Text>
         </View>
       </View>
     );
@@ -183,12 +188,20 @@ export default function TopSellingSkusScreen() {
                   <Text style={screenStyles.title}>{"Sku"}</Text>
                 </View>
                 <View style={screenStyles.marginStyle} />
-                <View style={screenStyles.middleView}>
-                  <Text style={screenStyles.title}>{"Gross Sale"}</Text>
+                <View
+                  style={{
+                    ...screenStyles.middleView,
+                  }}
+                >
+                  <Text style={{ ...screenStyles.title, textAlign: "right" }}>
+                    {"Gross Sale"}
+                  </Text>
                 </View>
                 <View style={screenStyles.marginStyle} />
                 <View style={screenStyles.rightView}>
-                  <Text style={screenStyles.title}>{"Gross Sale Count"}</Text>
+                  <Text style={{ ...screenStyles.title, textAlign: "right" }}>
+                    {"Gross Sale\nCount"}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -217,11 +230,18 @@ export default function TopSellingSkusScreen() {
             <View style={styles.netExpenseRow}>
               <Text style={screenStyles.leftTextExpense}>{"Total"}</Text>
               <View style={screenStyles.marginStyle} />
-              <Text style={screenStyles.middleTextExpense}>
+              <Text
+                style={{
+                  ...screenStyles.middleTextExpense,
+                  textAlign: "right",
+                }}
+              >
                 {Number(totalGross).toFixed(1)}
               </Text>
               <View style={screenStyles.marginStyle} />
-              <Text style={screenStyles.rightTextExpense}>
+              <Text
+                style={{ ...screenStyles.rightTextExpense, textAlign: "right" }}
+              >
                 {totalGrossCount}
               </Text>
             </View>

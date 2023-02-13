@@ -59,13 +59,18 @@ export default function TopSellingCategory() {
           <Text style={screenStyles.categoryText}>{humanize(title)}</Text>
         </View>
         <View style={screenStyles.middleView}>
-          <Text numberOfLines={1} style={screenStyles.categoryText}>
+          <Text
+            numberOfLines={1}
+            style={{ ...screenStyles.categoryText, textAlign: "right" }}
+          >
             {/* {"₹ "} */}
             {rs}
           </Text>
         </View>
         <View style={screenStyles.rightView}>
-          <Text style={screenStyles.categoryText}>{per}</Text>
+          <Text style={{ ...screenStyles.categoryText, textAlign: "right" }}>
+            {per}
+          </Text>
         </View>
       </View>
     );
@@ -157,10 +162,14 @@ export default function TopSellingCategory() {
                 <Text style={screenStyles.title}>{"Category"}</Text>
               </View>
               <View style={screenStyles.middleView}>
-                <Text style={screenStyles.title}>{"Gross Sale"}</Text>
+                <Text style={{ ...screenStyles.title, textAlign: "right" }}>
+                  {"Gross Sale"}
+                </Text>
               </View>
               <View style={screenStyles.rightView}>
-                <Text style={screenStyles.title}>{"Gross Sale Count"}</Text>
+                <Text style={{ ...screenStyles.title, textAlign: "right" }}>
+                  {"Gross Sale Count"}
+                </Text>
               </View>
             </View>
           </View>
@@ -188,11 +197,18 @@ export default function TopSellingCategory() {
           />
           <View style={styles.netExpenseRow}>
             <Text style={screenStyles.leftTextExpense}>{"Total"}</Text>
-            <Text numberOfLines={1} style={screenStyles.middleTextExpense}>
+            <Text
+              numberOfLines={1}
+              style={{ ...screenStyles.middleTextExpense, textAlign: "right" }}
+            >
               {"₹ "}
               {totalGross.toFixed(1)}
             </Text>
-            <Text style={screenStyles.rightTextExpense}>{totalGrossCount}</Text>
+            <Text
+              style={{ ...screenStyles.rightTextExpense, textAlign: "right" }}
+            >
+              {totalGrossCount}
+            </Text>
           </View>
         </View>
 

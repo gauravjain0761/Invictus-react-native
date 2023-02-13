@@ -61,7 +61,10 @@ export default function PLScreen() {
         <Text numberOfLines={1} style={styles.leftTextRow}>
           {title}
         </Text>
-        <Text numberOfLines={1} style={styles.middleText}>
+        <Text
+          numberOfLines={1}
+          style={{ ...styles.middleText, textAlign: "right" }}
+        >
           {/* {"₹ "} */}
           {rs}
         </Text>
@@ -272,7 +275,10 @@ export default function PLScreen() {
             <Text numberOfLines={1} style={styles.leftTextExpense}>
               {"Net Expenses"}
             </Text>
-            <Text numberOfLines={1} style={styles.middleTextExpense}>
+            <Text
+              numberOfLines={1}
+              style={{ ...styles.middleTextExpense, textAlign: "right" }}
+            >
               {/* {"₹ "} */}
               {netExpenses?.toFixed(1)}
             </Text>
@@ -417,16 +423,16 @@ export const styles = StyleSheet.create({
     textAlign: "right",
   },
   leftTextExpense: {
-    ...commonFontStyle(500, 16, Colors.red),
+    ...commonFontStyle(500, 14, Colors.red),
     width: "43%",
   },
   middleTextExpense: {
-    ...commonFontStyle(500, 16, Colors.darkBlueFont),
-    width: "33%",
+    ...commonFontStyle(500, 14, Colors.darkBlueFont),
+    width: "38%",
   },
   rightTextExpense: {
-    ...commonFontStyle(500, 16, Colors.darkBlueFont),
-    width: "25%",
+    ...commonFontStyle(500, 14, Colors.darkBlueFont),
+    width: "20%",
     textAlign: "right",
   },
   netExpenseRow: {
