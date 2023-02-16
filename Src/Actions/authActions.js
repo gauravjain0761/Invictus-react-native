@@ -2,7 +2,7 @@ import { api, GET, POST } from "../Helper/apiConstants";
 import { getToken, makeAPIRequest } from "../Helper/global";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const userLogin = (request) => async (dispatch) => {
+export const userLogin = (request) => (dispatch) => {
   return makeAPIRequest({
     method: POST,
     url: api.login,
@@ -10,8 +10,8 @@ export const userLogin = (request) => async (dispatch) => {
   })
     .then(async (response) => {
       if (response.status === 200) {
+        AsyncStorage.setItem("@token", response.data.authtoken);
         if (request.onSuccess) request.onSuccess(response.data);
-        await AsyncStorage.setItem("@token", response.data.authtoken);
       }
     })
     .catch((error) => {
@@ -32,7 +32,6 @@ export const getDetails = (request) => async (dispatch) => {
   })
     .then(async (response) => {
       if (response.status === 200) {
-        console.log("response", response);
         if (request.onSuccess) request.onSuccess(response.data);
         dispatch({ type: "GET_DETAILS", payload: response.data });
       }

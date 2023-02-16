@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   itemSeparatorStyle: {
-    borderWidth: 0.5,
+    height: 1,
     marginVertical: hp(1),
-    borderColor: Colors.grayFont,
+    backgroundColor: Colors.deviderLine,
   },
 });

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
+  Linking,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -113,6 +114,21 @@ export default function TopSellingSkusScreen() {
   const hideDatePicker = () => {
     setIsDatePickerVisible(false);
     setDateTyppe("start");
+  };
+
+  const onPressReport = () => {
+    let url =
+      "whatsapp://send?text=" +
+      "Hello" +
+      "&phone=91" +
+      allDetails?.sales_person_mobile_number;
+    Linking.openURL(url)
+      .then((data) => {
+        console.log("WhatsApp Opened");
+      })
+      .catch(() => {
+        alert("Make sure Whatsapp installed on your device");
+      });
   };
 
   return (
@@ -257,7 +273,7 @@ export default function TopSellingSkusScreen() {
             </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.reportBtn}>
+        <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
           <ReportDownloadIcon />
           <Text style={styles.reportText}>Report</Text>
         </TouchableOpacity>

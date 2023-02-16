@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
+  Linking,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -190,7 +191,7 @@ export default function CategoryWiseReturn() {
         <Text
           style={{
             ...screenStyles.middleView1,
-            textAlign: "center",
+            textAlign: "right",
             ...commonFontStyle(500, 16, Colors.darkBlueFont),
           }}
         >
@@ -200,7 +201,7 @@ export default function CategoryWiseReturn() {
         <Text
           style={{
             ...screenStyles.middleView2,
-            textAlign: "center",
+            textAlign: "right",
             ...commonFontStyle(500, 16, Colors.darkBlueFont),
           }}
         >
@@ -210,7 +211,7 @@ export default function CategoryWiseReturn() {
         <Text
           style={{
             ...screenStyles.rightView,
-            textAlign: "center",
+            textAlign: "right",
             ...commonFontStyle(500, 16, Colors.darkBlueFont),
           }}
         >
@@ -218,6 +219,21 @@ export default function CategoryWiseReturn() {
         </Text>
       </View>
     );
+  };
+
+  const onPressReport = () => {
+    let url =
+      "whatsapp://send?text=" +
+      "Hello" +
+      "&phone=91" +
+      allDetails?.sales_person_mobile_number;
+    Linking.openURL(url)
+      .then((data) => {
+        console.log("WhatsApp Opened");
+      })
+      .catch(() => {
+        alert("Make sure Whatsapp installed on your device");
+      });
   };
 
   return (
@@ -292,6 +308,7 @@ export default function CategoryWiseReturn() {
               total_sales={"Total Sales"}
               return_count={"Return Count"}
               percentage={"Customer Return%"}
+              newStyle={{ textAlign: "right" }}
             />
 
             <FlatList
@@ -305,7 +322,7 @@ export default function CategoryWiseReturn() {
                     total_sales={item?.total_sales}
                     return_count={item?.return_count}
                     percentage={item?.customer_return_percentage}
-                    newStyle={{ textAlign: "center" }}
+                    newStyle={{ textAlign: "right" }}
                   />
                 );
               }}
@@ -339,7 +356,7 @@ export default function CategoryWiseReturn() {
             </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.reportBtn}>
+        <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
           <ReportDownloadIcon />
           <Text style={styles.reportText}>Report</Text>
         </TouchableOpacity>

@@ -43,6 +43,7 @@ export default function DashboardScreen() {
   const [indexDate, setIndexDate] = useState(0);
   const [selectedButton, setSelectedButton] = useState("sales");
   const [currentDashBoardData, setCurrentDashBoardData] = useState({});
+  const [graphData, setGraphData] = useState([]);
 
   navigation.setOptions({
     headerRight: () => (
@@ -58,6 +59,7 @@ export default function DashboardScreen() {
     const request = {
       onSuccess: (res) => {
         setCurrentDashBoardData(res.dashboard["sales"][indexDate]);
+        setGraphData(res.dashboard["sales"][indexDate].graph);
         setIsLoading(false);
         setValue({
           label:
@@ -87,7 +89,8 @@ export default function DashboardScreen() {
 
   const onPressButtons = (type) => {
     setSelectedButton(type);
-    setCurrentDashBoardData(allDetails.dashboard[type][indexDate]);
+    setCurrentDashBoardData(allDetails?.dashboard?.[type][indexDate]);
+    setGraphData(allDetails?.dashboard?.[type][indexDate].graph);
   };
 
   return (
@@ -118,6 +121,9 @@ export default function DashboardScreen() {
                   setCurrentDashBoardData(
                     allDetails.dashboard[selectedButton][item.value]
                   );
+                  setGraphData(
+                    allDetails.dashboard[selectedButton][item.value].graph
+                  );
                 }}
                 renderItem={(item) => (
                   <View style={{}}>
@@ -129,7 +135,7 @@ export default function DashboardScreen() {
             </View>
           </View>
           {/* <Chart /> */}
-          <NewChart />
+          <NewChart passData={graphData} />
         </View>
         <View style={styles.chartHeader}>
           <View style={styles.halfView}>
