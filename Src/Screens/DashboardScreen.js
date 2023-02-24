@@ -33,13 +33,15 @@ const data = [
   { label: "Last Month", value: "2" },
   { label: "Last Year", value: "3" },
 ];
-export default function DashboardScreen() {
+export default function DashboardScreen({ route }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [dropdownData, setDropDownData] = useState([]);
   const [value, setValue] = useState({});
-  const { allDetails } = useSelector((state) => state.common);
+  const { allDetails, isLoginButtonPress } = useSelector(
+    (state) => state.common
+  );
   const [indexDate, setIndexDate] = useState(0);
   const [selectedButton, setSelectedButton] = useState("sales");
   const [currentDashBoardData, setCurrentDashBoardData] = useState({});
@@ -56,35 +58,62 @@ export default function DashboardScreen() {
   });
 
   useEffect(() => {
-    const request = {
-      onSuccess: (res) => {
-        setCurrentDashBoardData(res.dashboard["sales"][indexDate]);
-        setGraphData(res.dashboard["sales"][indexDate].graph);
-        setIsLoading(false);
-        setValue({
+    if (isLoginButtonPress) {
+      setCurrentDashBoardData(allDetails?.dashboard?.["sales"]?.[indexDate]);
+      setGraphData(allDetails?.dashboard?.["sales"]?.[indexDate]?.graph);
+      setIsLoading(false);
+      setValue({
+        label:
+          allDetails?.periods?.[indexDate]?.[indexDate]?.start_date +
+          "-" +
+          allDetails?.periods?.[indexDate]?.[indexDate]?.end_date,
+        value: 0,
+      });
+      let newData = [];
+      allDetails?.periods?.map((i, index) => {
+        let obj = {
+          value: index,
           label:
-            res.periods[indexDate][indexDate].start_date +
+            moment(i[index]["start_date"]).format("DD-MM-YYYY") +
             "-" +
-            res.periods[indexDate][indexDate].end_date,
-          value: 0,
-        });
-        let newData = [];
-        res.periods.map((i, index) => {
-          let obj = {
-            value: index,
+            moment(i[index]["end_date"]).format("DD-MM-YYYY"),
+        };
+        newData.push(obj);
+        dispatch(setPeriodsList(newData));
+        setDropDownData(newData);
+      });
+    } else {
+      setIsLoading(true);
+      const request = {
+        onSuccess: (res) => {
+          setCurrentDashBoardData(res.dashboard["sales"][indexDate]);
+          setGraphData(res.dashboard["sales"][indexDate].graph);
+          setIsLoading(false);
+          setValue({
             label:
-              moment(i[index]["start_date"]).format("DD-MM-YYYY") +
+              res.periods[indexDate][indexDate].start_date +
               "-" +
-              moment(i[index]["end_date"]).format("DD-MM-YYYY"),
-          };
-          newData.push(obj);
-          dispatch(setPeriodsList(newData));
-          setDropDownData(newData);
-        });
-      },
-      onFail: () => setIsLoading(false),
-    };
-    dispatch(getDetails(request));
+              res.periods[indexDate][indexDate].end_date,
+            value: 0,
+          });
+          let newData = [];
+          res.periods.map((i, index) => {
+            let obj = {
+              value: index,
+              label:
+                moment(i[index]["start_date"]).format("DD-MM-YYYY") +
+                "-" +
+                moment(i[index]["end_date"]).format("DD-MM-YYYY"),
+            };
+            newData.push(obj);
+            dispatch(setPeriodsList(newData));
+            setDropDownData(newData);
+          });
+        },
+        onFail: () => setIsLoading(false),
+      };
+      dispatch(getDetails(request));
+    }
   }, []);
 
   const onPressButtons = (type) => {

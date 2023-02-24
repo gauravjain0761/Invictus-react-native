@@ -3,6 +3,7 @@ const initialState = {
   preLoader: false,
   allDetails: {},
   periodsList: [],
+  isLoginButtonPress: false,
 };
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -14,6 +15,9 @@ export default function (state = initialState, action) {
     }
     case "GET_PERIODS": {
       return { ...state, periodsList: action.payload };
+    }
+    case "GET_LOGIN_CLICK": {
+      return { ...state, isLoginButtonPress: action.payload };
     }
     default:
       return state;

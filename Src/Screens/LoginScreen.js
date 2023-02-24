@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   ImageBackground,
   StyleSheet,
   Text,
@@ -14,7 +15,11 @@ import { EyePassword, LogoLoginScreen } from "../SvgIcons/IconSvg";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { userLogin } from "../Actions/authActions";
+import {
+  getDetails,
+  getLoginClickData,
+  userLogin,
+} from "../Actions/authActions";
 import Loader from "../Components/Loader";
 import { getToken } from "../Helper/global";
 import { useEffect } from "react";
@@ -34,13 +39,8 @@ export default function LoginScreen() {
         p: password,
       },
       onSuccess: (res) => {
-        setIsLoading(false);
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{ name: "BottomTab" }],
-          })
-        );
+        dispatch(getLoginClickData(true));
+        getDashboradApiCall();
       },
       onFail: () => {
         setIsLoading(false);
@@ -52,6 +52,22 @@ export default function LoginScreen() {
   useEffect(() => {
     getNavigate();
   }, []);
+
+  const getDashboradApiCall = () => {
+    const request = {
+      onSuccess: (res) => {
+        setIsLoading(false);
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: "BottomTab" }],
+          })
+        );
+      },
+      onFail: () => setIsLoading(false),
+    };
+    dispatch(getDetails(request));
+  };
 
   const getNavigate = async () => {
     const userToken = await getToken();
@@ -67,7 +83,7 @@ export default function LoginScreen() {
 
   return (
     <View style={ApplicationStyles.applicationView}>
-      <Loader visible={isLoading} />
+      {/* <Loader visible={isLoading} /> */}
       <View style={styles.container}>
         <ImageBackground
           style={styles.imageBackground}
@@ -109,13 +125,29 @@ export default function LoginScreen() {
                 </TouchableOpacity>
               </View>
             </View>
-            <TouchableOpacity
-              // onPress={() => navigation.navigate("BottomTab")}
-              onPress={onPressLoginButton}
-              style={styles.loginbtn}
-            >
-              <Text style={styles.loginButtonText}>Login</Text>
-            </TouchableOpacity>
+            {isLoading ? (
+              <TouchableOpacity
+                disabled={true}
+                style={{
+                  ...styles.loginbtn,
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <ActivityIndicator size={"large"} color={Colors.white} />
+                <Text style={{ ...styles.loginButtonText, marginLeft: hp(1) }}>
+                  Getting there
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                // onPress={() => navigation.navigate("BottomTab")}
+                onPress={onPressLoginButton}
+                style={styles.loginbtn}
+              >
+                <Text style={styles.loginButtonText}>Login</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>

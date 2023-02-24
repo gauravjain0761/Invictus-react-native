@@ -32,8 +32,8 @@ export const getDetails = (request) => async (dispatch) => {
   })
     .then(async (response) => {
       if (response.status === 200) {
-        if (request.onSuccess) request.onSuccess(response.data);
         dispatch({ type: "GET_DETAILS", payload: response.data });
+        if (request.onSuccess) request.onSuccess(response.data);
       }
     })
     .catch((error) => {
@@ -44,4 +44,8 @@ export const getDetails = (request) => async (dispatch) => {
 
 export const setPeriodsList = (data) => async (dispatch) => {
   dispatch({ type: "GET_PERIODS", payload: data });
+};
+
+export const getLoginClickData = (data) => async (dispatch) => {
+  dispatch({ type: "GET_LOGIN_CLICK", payload: data });
 };
