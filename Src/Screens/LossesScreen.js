@@ -60,7 +60,9 @@ export default function LossesScreen() {
           <Text style={styles.descriptionHeader}>Losses</Text>
         </View>
         {allDetails?.show_losses_table ? (
-          <View style={{ ...ApplicationStyles.chartCard, marginBottom: hp(2) }}>
+          <View
+            style={{ ...ApplicationStyles.chartCard, marginVertical: hp(2) }}
+          >
             <FlatList
               data={tableData}
               renderItem={({ item, index }) => {
