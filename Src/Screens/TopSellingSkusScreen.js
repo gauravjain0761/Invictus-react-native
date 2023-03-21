@@ -21,6 +21,7 @@ import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { styles } from "./PLScreen";
+import Header from "../Components/Header";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -133,6 +134,7 @@ export default function TopSellingSkusScreen() {
 
   return (
     <View style={ApplicationStyles.containerPadding}>
+      <Header isBackShow={true} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header  */}
         <View style={ApplicationStyles.chartCard}>
@@ -222,6 +224,7 @@ export default function TopSellingSkusScreen() {
               </View>
             </View>
             <FlatList
+              bounces={false}
               data={allDetails?.top_selling_skus[indexDate]}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => {
@@ -264,14 +267,13 @@ export default function TopSellingSkusScreen() {
           </View>
         </ScrollView>
 
-        <View style={ApplicationStyles.chartCard}>
-          <View style={screenStyles.infoView}>
-            <InfoIcon />
-            <Text style={screenStyles.infoText}>
-              A report of how your business is split up within the different
-              categories and the revenue numbers of each.
-            </Text>
-          </View>
+        <View style={ApplicationStyles.reportContainer}>
+          <InfoIcon />
+          <Text style={screenStyles.infoText}>
+            {
+              "A report of your top selling SKUs alongside the corresponding revenue & sale count."
+            }
+          </Text>
         </View>
         <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
           <ReportDownloadIcon />
@@ -289,13 +291,13 @@ export default function TopSellingSkusScreen() {
 }
 
 const screenStyles = StyleSheet.create({
-  leftView: { width: wp(70) },
+  leftView: { width: wp(45) },
   middleView: { width: wp(22) },
   rightView: { width: wp(30) },
   marginStyle: { width: wp(4) },
   title: { ...commonFontStyle(500, 13, Colors.darkBlueFont) },
   categoryText: { ...commonFontStyle(400, 14, Colors.blueOpacity_8Font) },
-  leftTextExpense: { width: wp(70), ...commonFontStyle(500, 16, Colors.red) },
+  leftTextExpense: { width: wp(40), ...commonFontStyle(500, 16, Colors.red) },
   middleTextExpense: {
     width: wp(22),
     ...commonFontStyle(500, 16, Colors.darkBlueFont),
@@ -310,6 +312,7 @@ const screenStyles = StyleSheet.create({
   infoText: {
     ...commonFontStyle(400, 12, Colors.darkBlueFont),
     paddingLeft: hp(1),
+    flex: 1,
   },
   textItem: {
     ...commonFontStyle(500, 14, Colors.grayFont),

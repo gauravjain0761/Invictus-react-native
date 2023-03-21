@@ -18,6 +18,8 @@ import { Dropdown } from "react-native-element-dropdown";
 import Chart from "../Components/Chart";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
+import Header from "../Components/Header";
+import { numberWithCommas, plusNumberWithCommas } from "../Helper/global";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -65,7 +67,7 @@ export default function PLScreen() {
           numberOfLines={1}
           style={{ ...styles.middleText, textAlign: "right" }}
         >
-          {/* {"₹ "} */}
+          {"₹ "}
           {rs}
         </Text>
         <Text numberOfLines={1} style={styles.rightText}>
@@ -96,6 +98,7 @@ export default function PLScreen() {
 
   return (
     <View style={ApplicationStyles.containerPadding}>
+      <Header />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header  */}
         <View style={ApplicationStyles.chartCard}>
@@ -168,20 +171,28 @@ export default function PLScreen() {
           <View style={styles.salesRow}>
             <Text style={styles.leftText}>Sales</Text>
             <Text style={styles.leftText}>
-              ₹ {allDetails?.pnl_report[indexDate]?.sales?.toFixed(1)}
+              ₹{" "}
+              {numberWithCommas(
+                allDetails?.pnl_report[indexDate]?.sales?.toFixed(1)
+              )}
             </Text>
           </View>
           <View style={styles.salesRow}>
             <Text style={styles.leftText}>Spf Amount</Text>
             <Text style={styles.leftText}>
-              ₹ {allDetails?.pnl_report[indexDate]?.spf_amount?.toFixed(1)}
+              ₹{" "}
+              {numberWithCommas(
+                allDetails?.pnl_report[indexDate]?.spf_amount?.toFixed(1)
+              )}
             </Text>
           </View>
           <View style={styles.netIncomRow}>
             <Text style={styles.netIncomText}>Net Income</Text>
             <Text style={styles.netIncomText}>
               ₹{" "}
-              {allDetails?.pnl_report[indexDate]?.net_income_amount?.toFixed(1)}
+              {numberWithCommas(
+                allDetails?.pnl_report[indexDate]?.net_income_amount?.toFixed(1)
+              )}
             </Text>
           </View>
         </View>
@@ -193,7 +204,11 @@ export default function PLScreen() {
             </View>
             <RenderRow
               title={"COGS"}
-              rs={allDetails?.pnl_report[indexDate].cogs?.toFixed(1) || ""}
+              rs={
+                numberWithCommas(
+                  allDetails?.pnl_report[indexDate].cogs?.toFixed(1)
+                ) || ""
+              }
               pr={allDetails?.pnl_report[indexDate].cogs_percentage?.toFixed(1)}
             />
           </View>
@@ -206,71 +221,93 @@ export default function PLScreen() {
           <RenderRow
             title={"Commission "}
             rs={
-              allDetails?.pnl_report[indexDate].commission_fee?.toFixed(1) || ""
+              plusNumberWithCommas(
+                allDetails?.pnl_report[indexDate].commission_fee?.toFixed(1)
+              ) || ""
             }
-            pr={allDetails?.pnl_report[
-              indexDate
-            ].commission_percentage?.toFixed(1)}
+            pr={Math.abs(
+              allDetails?.pnl_report[indexDate].commission_percentage?.toFixed(
+                1
+              )
+            )}
           />
           <RenderRow
             title={"Shipping "}
             rs={
-              allDetails?.pnl_report[indexDate].shipping_fee?.toFixed(1) || ""
+              plusNumberWithCommas(
+                allDetails?.pnl_report[indexDate].shipping_fee?.toFixed(1)
+              ) || ""
             }
-            pr={allDetails?.pnl_report[indexDate].shipping_percentage?.toFixed(
-              1
+            pr={Math.abs(
+              allDetails?.pnl_report[indexDate].shipping_percentage?.toFixed(1)
             )}
           />
           <RenderRow
             title={"Reverse Shipping "}
             rs={
-              allDetails?.pnl_report[indexDate].reverse_shipping_fee?.toFixed(
-                1
+              plusNumberWithCommas(
+                allDetails?.pnl_report[indexDate].reverse_shipping_fee?.toFixed(
+                  1
+                )
               ) || ""
             }
-            pr={allDetails?.pnl_report[
-              indexDate
-            ].reverse_shipping_fee_percentage?.toFixed(1)}
+            pr={Math.abs(
+              allDetails?.pnl_report[
+                indexDate
+              ].reverse_shipping_fee_percentage?.toFixed(1)
+            )}
           />
           <RenderRow
             title={"Collection "}
             rs={
-              allDetails?.pnl_report[indexDate].collection_fee?.toFixed(1) || ""
+              plusNumberWithCommas(
+                allDetails?.pnl_report[indexDate].collection_fee?.toFixed(1)
+              ) || ""
             }
-            pr={allDetails?.pnl_report[
-              indexDate
-            ].collection_percentage?.toFixed(1)}
+            pr={Math.abs(
+              allDetails?.pnl_report[indexDate].collection_percentage?.toFixed(
+                1
+              )
+            )}
           />
           <RenderRow
             title={"Fixed "}
-            rs={allDetails?.pnl_report[indexDate].fixed_fee?.toFixed(1) || ""}
-            pr={allDetails?.pnl_report[indexDate].fixed_fee_percentage?.toFixed(
-              1
+            rs={
+              plusNumberWithCommas(
+                allDetails?.pnl_report[indexDate].fixed_fee?.toFixed(1)
+              ) || ""
+            }
+            pr={Math.abs(
+              allDetails?.pnl_report[indexDate].fixed_fee_percentage?.toFixed(1)
             )}
           />
           <RenderRow
             title={"Pick and Pack "}
             rs={
-              allDetails?.pnl_report[indexDate].pick_and_pack_fee?.toFixed(1) ||
-              ""
+              plusNumberWithCommas(
+                allDetails?.pnl_report[indexDate].pick_and_pack_fee?.toFixed(1)
+              ) || ""
             }
-            pr={allDetails?.pnl_report[
-              indexDate
-            ].pick_and_pack_fee_percentage?.toFixed(1)}
+            pr={Math.abs(
+              allDetails?.pnl_report[
+                indexDate
+              ].pick_and_pack_fee_percentage?.toFixed(1)
+            )}
           />
           <RenderRow
             title={"Franchise"}
             rs={
-              allDetails?.pnl_report[indexDate].franchise_fee?.toFixed(1) || ""
+              plusNumberWithCommas(
+                allDetails?.pnl_report[indexDate].franchise_fee?.toFixed(1)
+              ) || ""
             }
-            pr={allDetails?.pnl_report[
-              indexDate
-            ].franchise_fee_percentage?.toFixed(1)}
+            pr={Math.abs(
+              allDetails?.pnl_report[
+                indexDate
+              ].franchise_fee_percentage?.toFixed(1)
+            )}
           />
-          {/* <RenderRow title={"Commission"} rs={"₹ 10,00,000"} pr={"8%"} />
-          <RenderRow title={"Shipping fee"} rs={"₹ 5,00,000"} pr={"7%"} />
-          <RenderRow title={"Collection Free"} rs={"₹ 30,00,000"} pr={"6%"} />
-          <RenderRow title={"Fixed Fee"} rs={"₹ 80,00,000"} pr={"7%"} /> */}
+
           <View style={styles.netExpenseRow}>
             <Text numberOfLines={1} style={styles.leftTextExpense}>
               {"Net Expenses"}
@@ -279,11 +316,11 @@ export default function PLScreen() {
               numberOfLines={1}
               style={{ ...styles.middleTextExpense, textAlign: "right" }}
             >
-              {/* {"₹ "} */}
-              {netExpenses?.toFixed(1)}
+              {"₹ "}
+              {plusNumberWithCommas(netExpenses?.toFixed(1))}
             </Text>
             <Text numberOfLines={1} style={styles.rightTextExpense}>
-              {percentage.toFixed(1)}
+              {Math.abs(percentage.toFixed(1))}
               {"%"}
             </Text>
           </View>
@@ -292,8 +329,11 @@ export default function PLScreen() {
           <View style={styles.grossRow}>
             <Text style={styles.profitText}>Gross Profit</Text>
             <Text style={styles.profitRsText}>
-              {allDetails?.pnl_report[indexDate].gross_profit_amount?.toFixed(
-                1
+              {"₹ "}
+              {numberWithCommas(
+                allDetails?.pnl_report[indexDate].gross_profit_amount?.toFixed(
+                  1
+                )
               )}
             </Text>
           </View>
@@ -307,7 +347,7 @@ export default function PLScreen() {
             </Text>
           </View>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             let url =
               "whatsapp://send?text=" +
@@ -326,7 +366,7 @@ export default function PLScreen() {
         >
           <ReportDownloadIcon />
           <Text style={styles.reportText}>Report</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
@@ -423,11 +463,11 @@ export const styles = StyleSheet.create({
     textAlign: "right",
   },
   leftTextExpense: {
-    ...commonFontStyle(500, 14, Colors.red),
+    ...commonFontStyle(500, 16, Colors.red),
     width: "43%",
   },
   middleTextExpense: {
-    ...commonFontStyle(500, 14, Colors.darkBlueFont),
+    ...commonFontStyle(500, 16, Colors.darkBlueFont),
     width: "38%",
   },
   rightTextExpense: {

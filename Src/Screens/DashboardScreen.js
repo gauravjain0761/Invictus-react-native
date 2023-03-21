@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +19,10 @@ import {
   UnitIcon,
 } from "../SvgIcons/IconSvg";
 import { useNavigation } from "@react-navigation/native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP,
+} from "react-native-responsive-screen";
 import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
 import Chart from "../Components/Chart";
@@ -26,7 +30,9 @@ import NewChart from "../Components/NewChart";
 import { getDetails, setPeriodsList } from "../Actions/authActions";
 import Loader from "../Components/Loader";
 import moment from "moment";
-import { humanize } from "../Helper/global";
+import { humanize, numberWithCommas } from "../Helper/global";
+import Header from "../Components/Header";
+import { icons } from "../Helper/IconConstants";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -46,16 +52,6 @@ export default function DashboardScreen({ route }) {
   const [selectedButton, setSelectedButton] = useState("sales");
   const [currentDashBoardData, setCurrentDashBoardData] = useState({});
   const [graphData, setGraphData] = useState([]);
-
-  navigation.setOptions({
-    headerRight: () => (
-      <TouchableOpacity>
-        <View style={styles.downloadIcon}>
-          <DownloadIcon />
-        </View>
-      </TouchableOpacity>
-    ),
-  });
 
   useEffect(() => {
     if (isLoginButtonPress) {
@@ -101,9 +97,9 @@ export default function DashboardScreen({ route }) {
             let obj = {
               value: index,
               label:
-                moment(i[index]["start_date"]).format("DD-MM-YYYY") +
-                "-" +
-                moment(i[index]["end_date"]).format("DD-MM-YYYY"),
+                moment(i[index]["start_date"]).format("DD MMM") +
+                " To " +
+                moment(i[index]["end_date"]).format("DD MMM"),
             };
             newData.push(obj);
             dispatch(setPeriodsList(newData));
@@ -125,6 +121,7 @@ export default function DashboardScreen({ route }) {
   return (
     <View style={ApplicationStyles.containerPadding}>
       <Loader visible={isLoading} />
+      <Header />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ApplicationStyles.chartCard}>
           <View style={styles.chartHeader}>
@@ -178,7 +175,10 @@ export default function DashboardScreen({ route }) {
                 </Text>
               </View>
               <Text style={styles.rupees}>
-                {Object.values(currentDashBoardData)?.[0]?.toFixed(1)}
+                ₹{" "}
+                {numberWithCommas(
+                  Object.values(currentDashBoardData)?.[0]?.toFixed(1)
+                )}
               </Text>
             </View>
           </View>
@@ -193,82 +193,113 @@ export default function DashboardScreen({ route }) {
                 </Text>
               </View>
               <Text style={styles.rupees}>
-                {Object.values(currentDashBoardData)?.[1]?.toFixed(1)}
+                ₹{" "}
+                {numberWithCommas(
+                  Object.values(currentDashBoardData)?.[1]?.toFixed(1)
+                )}
               </Text>
             </View>
           </View>
         </View>
-        <View style={styles.chartHeader}>
-          <TouchableOpacity
-            onPress={() => onPressButtons("sales")}
-            style={[
-              styles.halfView,
-              selectedButton === "sales"
-                ? styles.buttonViewGross
-                : styles.buttonViewReturn,
-            ]}
-          >
-            <GrossProfitIcon />
-            <Text
-              style={{
-                paddingLeft: 8,
-                ...commonFontStyle(
-                  500,
-                  16,
-                  selectedButton === "sales" ? Colors.white : Colors.blue
-                ),
-              }}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={styles.chartHeader}>
+            <TouchableOpacity
+              onPress={() => onPressButtons("sales")}
+              style={[
+                styles.halfView,
+                selectedButton === "sales"
+                  ? styles.buttonViewGross
+                  : styles.buttonViewReturn,
+              ]}
             >
-              {"Sales"}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => onPressButtons("gross_profit")}
-            style={[
-              styles.halfView,
-              selectedButton === "gross_profit"
-                ? styles.buttonViewGross
-                : styles.buttonViewReturn,
-            ]}
-          >
-            <ReturnIcon />
-            <Text
-              style={{
-                paddingLeft: 8,
-                ...commonFontStyle(
-                  500,
-                  16,
-                  selectedButton === "gross_profit" ? Colors.white : Colors.blue
-                ),
-              }}
+              <Image
+                source={
+                  selectedButton === "sales"
+                    ? icons.sales_white
+                    : icons.sales_blue
+                }
+                resizeMode={"contain"}
+                style={styles.iconStyle}
+              />
+              <Text
+                style={{
+                  paddingLeft: 8,
+                  ...commonFontStyle(
+                    500,
+                    16,
+                    selectedButton === "sales" ? Colors.white : Colors.blue
+                  ),
+                }}
+              >
+                {"Sales"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => onPressButtons("gross_profit")}
+              style={[
+                styles.halfView,
+                selectedButton === "gross_profit"
+                  ? styles.buttonViewGross
+                  : styles.buttonViewReturn,
+              ]}
             >
-              {"Gross Profit"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          onPress={() => onPressButtons("returns")}
-          style={[
-            styles.halfView,
-            selectedButton === "returns"
-              ? styles.buttonViewGross
-              : styles.buttonViewReturn,
-          ]}
-        >
-          <ReturnIcon />
-          <Text
-            style={{
-              paddingLeft: 8,
-              ...commonFontStyle(
-                500,
-                16,
-                selectedButton === "returns" ? Colors.white : Colors.blue
-              ),
-            }}
-          >
-            Return %
-          </Text>
-        </TouchableOpacity>
+              <Image
+                source={
+                  selectedButton === "gross_profit"
+                    ? icons.gross_profit_white
+                    : icons.gross_profit_blue
+                }
+                resizeMode={"contain"}
+                style={styles.iconStyle}
+              />
+              <Text
+                style={{
+                  paddingLeft: 8,
+                  ...commonFontStyle(
+                    500,
+                    16,
+                    selectedButton === "gross_profit"
+                      ? Colors.white
+                      : Colors.blue
+                  ),
+                }}
+              >
+                {"Gross Profit"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => onPressButtons("returns")}
+              style={[
+                styles.halfView,
+                selectedButton === "returns"
+                  ? styles.buttonViewGross
+                  : styles.buttonViewReturn,
+              ]}
+            >
+              <Image
+                source={
+                  selectedButton === "returns"
+                    ? icons.return_white
+                    : icons.return_blue
+                }
+                resizeMode={"contain"}
+                style={styles.iconStyle}
+              />
+              <Text
+                style={{
+                  paddingLeft: 8,
+                  ...commonFontStyle(
+                    500,
+                    16,
+                    selectedButton === "returns" ? Colors.white : Colors.blue
+                  ),
+                }}
+              >
+                Return %
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -317,6 +348,7 @@ const styles = StyleSheet.create({
   },
   halfView: {
     width: (SCREEN_WIDTH - hp(6)) / 2,
+    marginRight: 12,
   },
   rupeeIcon: {
     alignItems: "center",
@@ -337,7 +369,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.green,
   },
   cardDes: { ...commonFontStyle(500, 14, Colors.blueOpacityFont) },
-  rupees: { ...commonFontStyle(600, 20, Colors.darkBlueFont) },
+  rupees: { ...commonFontStyle(600, 18, Colors.darkBlueFont) },
   buttonViewGross: {
     alignItems: "center",
     justifyContent: "center",
@@ -359,5 +391,9 @@ const styles = StyleSheet.create({
     paddingVertical: hp(1.5),
     marginTop: hp(2),
     backgroundColor: Colors.returnBtnBgColor,
+  },
+  iconStyle: {
+    height: widthPercentageToDP(6),
+    width: widthPercentageToDP(6),
   },
 });

@@ -19,6 +19,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { styles } from "./PLScreen";
 import { humanize } from "../Helper/global";
+import Header from "../Components/Header";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -108,6 +109,7 @@ export default function TopSellingCategory() {
 
   return (
     <View style={ApplicationStyles.containerPadding}>
+      <Header isBackShow={true} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header  */}
         <View style={ApplicationStyles.chartCard}>
@@ -190,6 +192,7 @@ export default function TopSellingCategory() {
             </View>
           </View>
           <FlatList
+            bounces={false}
             data={allDetails?.top_selling_category[indexDate]}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => {
@@ -228,14 +231,13 @@ export default function TopSellingCategory() {
           </View>
         </View>
 
-        <View style={ApplicationStyles.chartCard}>
-          <View style={screenStyles.infoView}>
-            <InfoIcon />
-            <Text style={screenStyles.infoText}>
-              A report of how your business is split up within the different
-              categories and the revenue numbers of each.
-            </Text>
-          </View>
+        <View style={ApplicationStyles.reportContainer}>
+          <InfoIcon />
+          <Text style={screenStyles.infoText}>
+            {
+              "A report of your top selling categories alongside the corresponding revenue & sale count."
+            }
+          </Text>
         </View>
         <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
           <ReportDownloadIcon />
@@ -273,6 +275,7 @@ const screenStyles = StyleSheet.create({
   infoText: {
     ...commonFontStyle(400, 12, Colors.darkBlueFont),
     paddingLeft: hp(1),
+    flex: 1,
   },
   textItem: {
     ...commonFontStyle(500, 14, Colors.grayFont),

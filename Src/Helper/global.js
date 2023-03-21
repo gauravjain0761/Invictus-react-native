@@ -47,3 +47,13 @@ export function humanize(str) {
   }
   return frags?.join(" ");
 }
+
+export function numberWithCommas(x) {
+  return x?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function plusNumberWithCommas(x) {
+  return Math.abs(x)
+    ?.toString()
+    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

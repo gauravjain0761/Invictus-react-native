@@ -21,6 +21,7 @@ import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { styles } from "./PLScreen";
+import Header from "../Components/Header";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -258,6 +259,7 @@ export default function MostReturnedSkus() {
 
   return (
     <View style={ApplicationStyles.containerPadding}>
+      <Header isBackShow={true} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header  */}
         <View style={ApplicationStyles.chartCard}>
@@ -367,14 +369,13 @@ export default function MostReturnedSkus() {
           </View>
         </ScrollView>
 
-        <View style={ApplicationStyles.chartCard}>
-          <View style={screenStyles.infoView}>
-            <InfoIcon />
-            <Text style={screenStyles.infoText}>
-              A report of how your business is split up within the different
-              categories and the revenue numbers of each.
-            </Text>
-          </View>
+        <View style={ApplicationStyles.reportContainer}>
+          <InfoIcon />
+          <Text style={screenStyles.infoText}>
+            {
+              "A report of your SKUs that have the highest number of customer returns."
+            }
+          </Text>
         </View>
         <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
           <ReportDownloadIcon />
@@ -418,6 +419,7 @@ const screenStyles = StyleSheet.create({
   infoText: {
     ...commonFontStyle(400, 12, Colors.darkBlueFont),
     paddingLeft: hp(1),
+    flex: 1,
   },
   textItem: {
     ...commonFontStyle(500, 14, Colors.grayFont),

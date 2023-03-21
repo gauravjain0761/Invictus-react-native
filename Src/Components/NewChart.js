@@ -82,6 +82,7 @@
 //   },
 // });
 
+import moment from "moment";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -100,7 +101,7 @@ const NewChart = ({ passData }) => {
     var data = [];
     passData.map((i) => {
       data.push({
-        x: i.label,
+        x: moment(i.label).format("DD MMM"),
         y: i.value,
       });
     });
@@ -118,7 +119,7 @@ const NewChart = ({ passData }) => {
       <PureChart
         type={"bar"}
         data={data}
-        height={200}
+        height={210}
         labelColor={Colors.black}
         //   xAxisColor={"red"}
         //   yAxisColor={"red"}

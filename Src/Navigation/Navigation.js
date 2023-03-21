@@ -60,12 +60,13 @@ function ReportNavigation() {
   return (
     <ReportStack.Navigator>
       <ReportStack.Screen
-        options={{ ...transparentHeader, ...data }}
+        options={{ ...transparentHeader, ...data, headerShown: false }}
         component={ReportScreen}
         name={"ReportScreen"}
       />
       <ReportStack.Screen
         options={({ navigation }) => ({
+          headerShown: false,
           ...transparentHeader,
           ...data,
           headerLeft: () => (
@@ -85,6 +86,7 @@ function ReportNavigation() {
       />
       <ReportStack.Screen
         options={({ navigation }) => ({
+          headerShown: false,
           ...transparentHeader,
           ...data,
           headerLeft: () => (
@@ -104,6 +106,7 @@ function ReportNavigation() {
       />
       <ReportStack.Screen
         options={({ navigation }) => ({
+          headerShown: false,
           ...transparentHeader,
           ...data,
           headerLeft: () => (
@@ -123,6 +126,7 @@ function ReportNavigation() {
       />
       <ReportStack.Screen
         options={({ navigation }) => ({
+          headerShown: false,
           ...transparentHeader,
           ...data,
           headerLeft: () => (
@@ -142,6 +146,7 @@ function ReportNavigation() {
       />
       <ReportStack.Screen
         options={({ navigation }) => ({
+          headerShown: false,
           ...transparentHeader,
           ...data,
           headerLeft: () => (
@@ -189,6 +194,7 @@ function BottomTab() {
         name="Dashboard"
         component={DashboardScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color }) => {
             return <DashboardTabIcon color={color} />;
           },
@@ -199,6 +205,7 @@ function BottomTab() {
       />
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({ color }) => {
             return <PLTabIcon color={color} />;
           },
@@ -222,6 +229,7 @@ function BottomTab() {
       />
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({ color }) => {
             return <LossesTabIcon color={color} />;
           },

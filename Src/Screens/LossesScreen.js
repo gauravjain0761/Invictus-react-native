@@ -21,6 +21,7 @@ import {
 import { CallIcon } from "../SvgIcons/IconSvg";
 import { useEffect } from "react";
 import { humanize } from "../Helper/global";
+import Header from "../Components/Header";
 
 export default function LossesScreen() {
   const dispatch = useDispatch();
@@ -34,12 +35,23 @@ export default function LossesScreen() {
   }, []);
 
   const onCall = () => {
-    let phoneNumber = allDetails?.sales_person_mobile_number;
-    Linking.openURL("tel:" + phoneNumber);
+    let url =
+      "whatsapp://send?text=" +
+      "Hello" +
+      "&phone=91" +
+      allDetails?.sales_person_mobile_number;
+    Linking.openURL(url)
+      .then((data) => {
+        console.log("WhatsApp Opened");
+      })
+      .catch(() => {
+        alert("Make sure Whatsapp installed on your device");
+      });
   };
 
   return (
     <View style={ApplicationStyles.containerPadding}>
+      <Header />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ApplicationStyles.chartCard}>
           <Text numberOfLines={1} style={styles.topTitle}>
@@ -70,7 +82,7 @@ export default function LossesScreen() {
                         textAlign: "right",
                       }}
                     >
-                      {item?.[1]}
+                      {index === 10 ? parseInt(item?.[1]) : item?.[1]}
                     </Text>
                   </View>
                 );
@@ -80,28 +92,25 @@ export default function LossesScreen() {
               )}
             />
           </View>
-        ) : null}
-
-        <View>
-          <View style={styles.rupeeView}>
-            <Text style={styles.textRupee}>₹</Text>
+        ) : (
+          <View>
+            <View style={styles.rupeeView}>
+              <Text style={styles.textRupee}>₹</Text>
+            </View>
+            <View style={styles.redView}>
+              <Text style={styles.titleRedView}>
+                Your estimated monthly looses are
+              </Text>
+              <Text style={styles.rsText}>
+                ₹ {allDetails?.losses?.["Total Losses"]}/-
+              </Text>
+              <TouchableOpacity onPress={onCall} style={styles.blueButton}>
+                <CallIcon />
+                <Text style={styles.btnText}>Talk to Somebody Now</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.redView}>
-            <Text style={styles.titleRedView}>
-              Your estimated monthly looses are
-            </Text>
-            <Text style={styles.rsText}>
-              ₹ {allDetails?.losses?.["Total Losses"]}/-
-            </Text>
-            <TouchableOpacity
-              onPress={() => onCall()}
-              style={styles.blueButton}
-            >
-              <CallIcon />
-              <Text style={styles.btnText}>Talk to Somebody Now</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        )}
       </ScrollView>
     </View>
   );

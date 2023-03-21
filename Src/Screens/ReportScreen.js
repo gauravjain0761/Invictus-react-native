@@ -19,6 +19,7 @@ import {
   RightArrowIcon,
   SalesReportIcon,
 } from "../SvgIcons/IconSvg";
+import Header from "../Components/Header";
 
 export default function ReportScreen() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ export default function ReportScreen() {
 
   return (
     <View style={ApplicationStyles.containerPadding}>
+      <Header />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ApplicationStyles.chartCard}>
           <Text numberOfLines={1} style={styles.topTitle}>
@@ -59,10 +61,10 @@ export default function ReportScreen() {
             name={"Top Selling Category"}
             onPress={() => navigation.navigate("TopSellingCategory")}
           />
-          <View style={styles.horizontalLine}></View>
-          <RenderRow name={"Slow Selling SKUs"} />
+          {/* <View style={styles.horizontalLine}></View>
+          <RenderRow name={"Slow Selling SKUs"} /> */}
         </View>
-        <View style={ApplicationStyles.chartCard}>
+        {/* <View style={ApplicationStyles.chartCard}>
           <View style={styles.headerTitleView}>
             <Text numberOfLines={1} style={styles.topTitle}>
               Profit Reports
@@ -72,7 +74,7 @@ export default function ReportScreen() {
           <RenderRow name={"Most Profitable SKUs"} />
           <View style={styles.horizontalLine}></View>
           <RenderRow name={"Category Profitability"} />
-        </View>
+        </View> */}
         <View style={ApplicationStyles.chartCard}>
           <View style={styles.headerTitleView}>
             <Text numberOfLines={1} style={styles.topTitle}>
@@ -85,8 +87,8 @@ export default function ReportScreen() {
             onPress={() => navigation.navigate("MostReturnedSkus")}
           />
           <View style={styles.horizontalLine}></View>
-          <RenderRow name={"SKUs with highest return charges"} />
-          <View style={styles.horizontalLine}></View>
+          {/* <RenderRow name={"SKUs with highest return charges"} />
+          <View style={styles.horizontalLine}></View> */}
           <RenderRow
             name={"Category wise return %"}
             onPress={() => navigation.navigate("CategoryWiseReturn")}
