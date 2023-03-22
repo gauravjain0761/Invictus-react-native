@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Image,
   ImageBackground,
   StyleSheet,
   Text,
@@ -91,7 +92,11 @@ export default function LoginScreen() {
         ></ImageBackground>
         <View style={styles.bottomView}>
           <View style={styles.logoLOgin}>
-            <LogoLoginScreen />
+            <Image
+              resizeMode="contain"
+              style={styles.logoHeader}
+              source={require("../Images/logo_white.png")}
+            />
           </View>
           <View style={styles.loginView}>
             <Text style={styles.titleStyle}>
@@ -234,5 +239,10 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     ...commonFontStyle(500, 18, Colors.white),
+  },
+  logoHeader: {
+    height: hp(15),
+    width: hp(20),
+    // backgroundColor: "red",
   },
 });
