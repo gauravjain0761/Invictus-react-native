@@ -178,7 +178,7 @@ export default function PLScreen() {
             </Text>
           </View>
           <View style={styles.salesRow}>
-            <Text style={styles.leftText}>Spf Amount</Text>
+            <Text style={styles.leftText}>SPF Amount</Text>
             <Text style={styles.leftText}>
               ₹{" "}
               {numberWithCommas(
@@ -219,7 +219,7 @@ export default function PLScreen() {
             <Text style={styles.topTitle}>Expenses</Text>
           </View>
           <RenderRow
-            title={"Commission "}
+            title={"Commission Fee"}
             rs={
               plusNumberWithCommas(
                 allDetails?.pnl_report[indexDate].commission_fee?.toFixed(1)
@@ -232,7 +232,7 @@ export default function PLScreen() {
             )}
           />
           <RenderRow
-            title={"Shipping "}
+            title={"Shipping Fee"}
             rs={
               plusNumberWithCommas(
                 allDetails?.pnl_report[indexDate].shipping_fee?.toFixed(1)
@@ -243,7 +243,7 @@ export default function PLScreen() {
             )}
           />
           <RenderRow
-            title={"Reverse Shipping "}
+            title={"Reverse Shipping Fee"}
             rs={
               plusNumberWithCommas(
                 allDetails?.pnl_report[indexDate].reverse_shipping_fee?.toFixed(
@@ -258,7 +258,7 @@ export default function PLScreen() {
             )}
           />
           <RenderRow
-            title={"Collection "}
+            title={"Collection Fee"}
             rs={
               plusNumberWithCommas(
                 allDetails?.pnl_report[indexDate].collection_fee?.toFixed(1)
@@ -271,7 +271,7 @@ export default function PLScreen() {
             )}
           />
           <RenderRow
-            title={"Fixed "}
+            title={"Fixed Fee"}
             rs={
               plusNumberWithCommas(
                 allDetails?.pnl_report[indexDate].fixed_fee?.toFixed(1)
@@ -282,7 +282,7 @@ export default function PLScreen() {
             )}
           />
           <RenderRow
-            title={"Pick and Pack "}
+            title={"Pick and Pack Fee"}
             rs={
               plusNumberWithCommas(
                 allDetails?.pnl_report[indexDate].pick_and_pack_fee?.toFixed(1)
@@ -295,7 +295,7 @@ export default function PLScreen() {
             )}
           />
           <RenderRow
-            title={"Franchise"}
+            title={"Franchise Fee"}
             rs={
               plusNumberWithCommas(
                 allDetails?.pnl_report[indexDate].franchise_fee?.toFixed(1)
@@ -310,7 +310,7 @@ export default function PLScreen() {
 
           <View style={styles.netExpenseRow}>
             <Text numberOfLines={1} style={styles.leftTextExpense}>
-              {"Net Expenses"}
+              {"Net Expenses Fee"}
             </Text>
             <Text
               numberOfLines={1}
@@ -451,11 +451,11 @@ export const styles = StyleSheet.create({
   },
   leftTextRow: {
     ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
-    width: "43%",
+    width: "52%",
   },
   middleText: {
     ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
-    width: "38%",
+    width: "30%",
   },
   rightText: {
     ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
@@ -464,15 +464,15 @@ export const styles = StyleSheet.create({
   },
   leftTextExpense: {
     ...commonFontStyle(500, 16, Colors.red),
-    width: "43%",
+    width: "52%",
   },
   middleTextExpense: {
     ...commonFontStyle(500, 16, Colors.darkBlueFont),
-    width: "38%",
+    width: "30%",
   },
   rightTextExpense: {
     ...commonFontStyle(500, 14, Colors.darkBlueFont),
-    width: "20%",
+    width: "18%",
     textAlign: "right",
   },
   netExpenseRow: {

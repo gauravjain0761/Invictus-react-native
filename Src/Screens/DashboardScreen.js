@@ -70,9 +70,9 @@ export default function DashboardScreen({ route }) {
         let obj = {
           value: index,
           label:
-            moment(i[index]["start_date"]).format("DD-MM-YYYY") +
+            moment(i[index]["start_date"]).format("DD MMM") +
             "-" +
-            moment(i[index]["end_date"]).format("DD-MM-YYYY"),
+            moment(i[index]["end_date"]).format("DD MMM"),
         };
         newData.push(obj);
         dispatch(setPeriodsList(newData));
@@ -121,7 +121,7 @@ export default function DashboardScreen({ route }) {
   return (
     <View style={ApplicationStyles.containerPadding}>
       <Loader visible={isLoading} />
-      <Header />
+      <Header isLogoutShow={true} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ApplicationStyles.chartCard}>
           <View style={styles.chartHeader}>
@@ -129,7 +129,13 @@ export default function DashboardScreen({ route }) {
               <Text numberOfLines={1} style={styles.topTitle}>
                 {allDetails?.seller_name}
               </Text>
-              <Text style={styles.descriptionHeader}>Sales</Text>
+              <Text style={styles.descriptionHeader}>
+                {selectedButton == "sales"
+                  ? "Sales"
+                  : selectedButton == "gross_profit"
+                  ? "Gross Profit"
+                  : "Return %"}
+              </Text>
             </View>
             <View style={styles.dropdownView}>
               <Dropdown
@@ -206,7 +212,7 @@ export default function DashboardScreen({ route }) {
             <TouchableOpacity
               onPress={() => onPressButtons("sales")}
               style={[
-                styles.halfView,
+                styles.halfView2,
                 selectedButton === "sales"
                   ? styles.buttonViewGross
                   : styles.buttonViewReturn,
@@ -237,7 +243,7 @@ export default function DashboardScreen({ route }) {
             <TouchableOpacity
               onPress={() => onPressButtons("gross_profit")}
               style={[
-                styles.halfView,
+                styles.halfView2,
                 selectedButton === "gross_profit"
                   ? styles.buttonViewGross
                   : styles.buttonViewReturn,
@@ -270,7 +276,7 @@ export default function DashboardScreen({ route }) {
             <TouchableOpacity
               onPress={() => onPressButtons("returns")}
               style={[
-                styles.halfView,
+                styles.halfView2,
                 selectedButton === "returns"
                   ? styles.buttonViewGross
                   : styles.buttonViewReturn,
@@ -319,6 +325,7 @@ const styles = StyleSheet.create({
   chartHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: hp(2),
   },
   topTitle: {
     ...commonFontStyle(600, 18, Colors.darkBlueFont),
@@ -348,7 +355,12 @@ const styles = StyleSheet.create({
   },
   halfView: {
     width: (SCREEN_WIDTH - hp(6)) / 2,
-    marginRight: 12,
+    // marginRight: 12,
+  },
+  halfView2: {
+    // width: (SCREEN_WIDTH - hp(6)) / 2,
+    paddingHorizontal: hp(1.5),
+    marginRight: hp(2),
   },
   rupeeIcon: {
     alignItems: "center",
@@ -378,7 +390,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.blue,
     borderRadius: 10,
     paddingVertical: hp(1.5),
-    marginTop: hp(2),
+    marginBottom: hp(2),
     backgroundColor: Colors.blue,
   },
   buttonViewReturn: {
@@ -389,7 +401,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.blue,
     borderRadius: 10,
     paddingVertical: hp(1.5),
-    marginTop: hp(2),
+    marginBottom: hp(2),
     backgroundColor: Colors.returnBtnBgColor,
   },
   iconStyle: {

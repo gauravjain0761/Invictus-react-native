@@ -39,13 +39,13 @@ export default function ReportScreen() {
     <View style={ApplicationStyles.containerPadding}>
       <Header />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={ApplicationStyles.chartCard}>
+        <View style={[ApplicationStyles.chartCard, { marginTop: hp(2) }]}>
           <Text numberOfLines={1} style={styles.topTitle}>
             {allDetails?.seller_name}
           </Text>
           <Text style={styles.descriptionHeader}>Reports</Text>
         </View>
-        <View style={ApplicationStyles.chartCard}>
+        <View style={[ApplicationStyles.chartCard, { marginTop: hp(2) }]}>
           <View style={styles.headerTitleView}>
             <Text numberOfLines={1} style={styles.topTitle}>
               Sales Reports
@@ -64,7 +64,7 @@ export default function ReportScreen() {
           {/* <View style={styles.horizontalLine}></View>
           <RenderRow name={"Slow Selling SKUs"} /> */}
         </View>
-        {/* <View style={ApplicationStyles.chartCard}>
+        {/* <View style={[ApplicationStyles.chartCard,{marginTop:hp(2)}]}>
           <View style={styles.headerTitleView}>
             <Text numberOfLines={1} style={styles.topTitle}>
               Profit Reports
@@ -75,7 +75,7 @@ export default function ReportScreen() {
           <View style={styles.horizontalLine}></View>
           <RenderRow name={"Category Profitability"} />
         </View> */}
-        <View style={ApplicationStyles.chartCard}>
+        <View style={[ApplicationStyles.chartCard, { marginTop: hp(2) }]}>
           <View style={styles.headerTitleView}>
             <Text numberOfLines={1} style={styles.topTitle}>
               Return Reports

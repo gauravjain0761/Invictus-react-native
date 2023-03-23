@@ -26,8 +26,8 @@ import { getToken } from "../Helper/global";
 import { useEffect } from "react";
 export default function LoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("naquash@kajaniexim.com");
-  const [password, setPassword] = useState("Password123#");
+  const [email, setEmail] = useState(__DEV__ ? "naquash@kajaniexim.com" : "");
+  const [password, setPassword] = useState(__DEV__ ? "Password123#" : "");
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
   const navigation = useNavigation();
   const dispatch = useDispatch();

@@ -49,11 +49,26 @@ export function humanize(str) {
 }
 
 export function numberWithCommas(x) {
-  return x?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  input = x;
+  var n1, n2;
+  x = x + "" || "";
+  // works for integer and floating as well
+  n1 = x.split(".");
+  n2 = n1[1] || null;
+  n1 = n1[0].replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+  x = n2 ? n1 + "." + n2 : n1;
+  return x;
 }
 
-export function plusNumberWithCommas(x) {
-  return Math.abs(x)
-    ?.toString()
-    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export function plusNumberWithCommas(y) {
+  let x = Math.abs(y)?.toString();
+  input = x;
+  var n1, n2;
+  x = x + "" || "";
+  // works for integer and floating as well
+  n1 = x.split(".");
+  n2 = n1[1] || null;
+  n1 = n1[0].replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+  x = n2 ? n1 + "." + n2 : n1;
+  return x;
 }

@@ -149,7 +149,7 @@ export default function ReportDetailScreen() {
             <View style={styles.headingRow}>
               <View style={styles.chartHeader}>
                 <View style={screenStyles.leftView}>
-                  <Text style={screenStyles.title}>{"Sku"}</Text>
+                  <Text style={screenStyles.title}>{"SKU"}</Text>
                 </View>
                 <View style={screenStyles.middleView}>
                   <Text style={screenStyles.title}>{"Gross Sale"}</Text>

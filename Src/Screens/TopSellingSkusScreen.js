@@ -143,7 +143,7 @@ export default function TopSellingSkusScreen() {
               <Text numberOfLines={1} style={styles.topTitle}>
                 {allDetails?.seller_name}
               </Text>
-              <Text style={styles.descriptionHeader}>Sales by Category</Text>
+              <Text style={styles.descriptionHeader}>Top Selling SKUs</Text>
             </View>
             <View style={styles.dropdownView}>
               <Dropdown
@@ -203,7 +203,7 @@ export default function TopSellingSkusScreen() {
             <View style={styles.headingRow}>
               <View style={styles.chartHeader}>
                 <View style={screenStyles.leftView}>
-                  <Text style={screenStyles.title}>{"Sku"}</Text>
+                  <Text style={screenStyles.title}>{"SKU"}</Text>
                 </View>
                 <View style={screenStyles.marginStyle} />
                 <View
@@ -246,7 +246,7 @@ export default function TopSellingSkusScreen() {
                 }
               }}
             />
-            <View style={styles.netExpenseRow}>
+            {/* <View style={styles.netExpenseRow}>
               <Text style={screenStyles.leftTextExpense}>{"Total"}</Text>
               <View style={screenStyles.marginStyle} />
               <Text
@@ -263,7 +263,7 @@ export default function TopSellingSkusScreen() {
               >
                 {totalGrossCount}
               </Text>
-            </View>
+            </View> */}
           </View>
         </ScrollView>
 
@@ -275,10 +275,10 @@ export default function TopSellingSkusScreen() {
             }
           </Text>
         </View>
-        <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
+        {/* <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
           <ReportDownloadIcon />
           <Text style={styles.reportText}>Report</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}

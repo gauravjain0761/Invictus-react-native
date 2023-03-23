@@ -248,7 +248,9 @@ export default function CategoryWiseReturn() {
               <Text numberOfLines={1} style={styles.topTitle}>
                 {allDetails?.seller_name}
               </Text>
-              <Text style={styles.descriptionHeader}>Sales by Category</Text>
+              <Text numberOfLines={1} style={styles.descriptionHeader}>
+                Category wise return %
+              </Text>
             </View>
             <View style={styles.dropdownView}>
               <Dropdown
@@ -306,7 +308,7 @@ export default function CategoryWiseReturn() {
         <ScrollView horizontal>
           <View style={ApplicationStyles.chartCardWithourPadding}>
             <TableHeaderRow
-              sku={"Sku"}
+              sku={"SKU"}
               total_sales={"Total Sales"}
               return_count={"Return Count"}
               percentage={"Customer Return%"}
@@ -341,11 +343,11 @@ export default function CategoryWiseReturn() {
                 }
               }}
             />
-            <TotalRedContainer
+            {/* <TotalRedContainer
               total_sales={totalSalesCount}
               return_count={totalReturnCount}
               customer_return_percentage={totalCustomerReturnCount.toFixed(1)}
-            />
+            /> */}
           </View>
         </ScrollView>
 
@@ -357,10 +359,10 @@ export default function CategoryWiseReturn() {
             }
           </Text>
         </View>
-        <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
+        {/* <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
           <ReportDownloadIcon />
           <Text style={styles.reportText}>Report</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}

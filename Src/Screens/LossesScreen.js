@@ -33,7 +33,7 @@ export default function LossesScreen() {
     const entries = Object.entries(allDetails?.losses);
     setTableData(entries);
   }, []);
-
+  console.log("tableData--", tableData);
   const onCall = () => {
     let url =
       "whatsapp://send?text=" +
@@ -60,39 +60,77 @@ export default function LossesScreen() {
           <Text style={styles.descriptionHeader}>Losses</Text>
         </View>
         {allDetails?.show_losses_table ? (
-          <View
-            style={{ ...ApplicationStyles.chartCard, marginVertical: hp(2) }}
-          >
-            <FlatList
-              data={tableData}
-              renderItem={({ item, index }) => {
-                return (
-                  <View style={styles.rowStyle}>
-                    <Text
-                      style={{
-                        ...commonFontStyle(500, 14, Colors.darkBlueFont),
-                        flex: 1,
-                      }}
-                    >
-                      {humanize(item?.[0])}
-                    </Text>
-                    <View style={{ width: wp(5) }} />
-                    <Text
-                      style={{
-                        ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
-                        flex: 0.7,
-                        textAlign: "right",
-                      }}
-                    >
-                      {index === 10 ? parseInt(item?.[1]) : item?.[1]}
-                    </Text>
-                  </View>
-                );
-              }}
-              ItemSeparatorComponent={() => (
-                <View style={styles.itemSeparatorStyle} />
-              )}
-            />
+          <View>
+            <View
+              style={{ ...ApplicationStyles.chartCard, marginVertical: hp(2) }}
+            >
+              <FlatList
+                data={tableData.slice(0, 2)}
+                renderItem={({ item, index }) => {
+                  return (
+                    <View style={styles.rowStyle}>
+                      <Text
+                        style={{
+                          ...commonFontStyle(500, 14, Colors.darkBlueFont),
+                          flex: 1,
+                        }}
+                      >
+                        {humanize(item?.[0])}
+                      </Text>
+                      <View style={{ width: wp(5) }} />
+                      <Text
+                        style={{
+                          ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
+                          flex: 0.7,
+                          textAlign: "right",
+                        }}
+                      >
+                        {index === 10 ? parseInt(item?.[1]) : item?.[1]}
+                      </Text>
+                    </View>
+                  );
+                }}
+                ItemSeparatorComponent={() => (
+                  <View style={styles.itemSeparatorStyle} />
+                )}
+              />
+            </View>
+            <View
+              style={{ ...ApplicationStyles.chartCard, marginBottom: hp(2) }}
+            >
+              <FlatList
+                data={tableData.splice(
+                  tableData.length - (tableData.length - 2)
+                )}
+                renderItem={({ item, index }) => {
+                  return (
+                    <View style={styles.rowStyle}>
+                      <Text
+                        style={{
+                          ...commonFontStyle(500, 14, Colors.darkBlueFont),
+                          flex: 1,
+                        }}
+                      >
+                        {humanize(item?.[0])}
+                      </Text>
+                      <View style={{ width: wp(5) }} />
+                      <Text
+                        style={{
+                          ...commonFontStyle(400, 14, Colors.blueOpacity_8Font),
+                          flex: 0.7,
+                          textAlign: "right",
+                        }}
+                      >
+                        {index === 10 ? parseInt(item?.[1]) : item?.[1]}
+                      </Text>
+                    </View>
+                  );
+                }}
+                ItemSeparatorComponent={() => (
+                  <View style={styles.itemSeparatorStyle} />
+                )}
+              />
+            </View>
           </View>
         ) : (
           <View>

@@ -118,7 +118,7 @@ export default function TopSellingCategory() {
               <Text numberOfLines={1} style={styles.topTitle}>
                 {allDetails?.seller_name}
               </Text>
-              <Text style={styles.descriptionHeader}>Sales by Category</Text>
+              <Text style={styles.descriptionHeader}>Top Selling Category</Text>
             </View>
             <View style={styles.dropdownView}>
               <Dropdown
@@ -214,7 +214,7 @@ export default function TopSellingCategory() {
               }
             }}
           />
-          <View style={styles.netExpenseRow}>
+          {/* <View style={styles.netExpenseRow}>
             <Text style={screenStyles.leftTextExpense}>{"Total"}</Text>
             <Text
               numberOfLines={1}
@@ -228,7 +228,7 @@ export default function TopSellingCategory() {
             >
               {totalGrossCount}
             </Text>
-          </View>
+          </View> */}
         </View>
 
         <View style={ApplicationStyles.reportContainer}>
@@ -239,10 +239,10 @@ export default function TopSellingCategory() {
             }
           </Text>
         </View>
-        <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
+        {/* <TouchableOpacity onPress={onPressReport} style={styles.reportBtn}>
           <ReportDownloadIcon />
           <Text style={styles.reportText}>Report</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}

@@ -19,6 +19,9 @@ export default function (state = initialState, action) {
     case "GET_LOGIN_CLICK": {
       return { ...state, isLoginButtonPress: action.payload };
     }
+    case "LOGOUT": {
+      return initialState;
+    }
     default:
       return state;
   }
