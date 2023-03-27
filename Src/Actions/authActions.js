@@ -11,11 +11,15 @@ export const userLogin = (request) => (dispatch) => {
     .then(async (response) => {
       if (response.status === 200) {
         AsyncStorage.setItem("@token", response.data.authtoken);
-        if (request.onSuccess) request.onSuccess(response.data);
+        if (Object.keys(response.data).length != 0) {
+          if (request.onSuccess) request.onSuccess(response.data);
+        } else {
+          if (request.onFail) request.onFail("login");
+        }
       }
     })
     .catch((error) => {
-      console.log("error", error);
+      console.log("error--", error.response);
       if (request.onFail) request.onFail(error.response);
     });
 };

@@ -39,7 +39,7 @@ export default function ReportScreen() {
     <View style={ApplicationStyles.containerPadding}>
       <Header />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={[ApplicationStyles.chartCard, { marginTop: hp(2) }]}>
+        <View style={[ApplicationStyles.chartCard]}>
           <Text numberOfLines={1} style={styles.topTitle}>
             {allDetails?.seller_name}
           </Text>

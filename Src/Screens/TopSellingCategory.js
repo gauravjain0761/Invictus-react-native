@@ -18,7 +18,7 @@ import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { styles } from "./PLScreen";
-import { humanize } from "../Helper/global";
+import { humanize, numberWithCommas } from "../Helper/global";
 import Header from "../Components/Header";
 
 const data = [
@@ -199,8 +199,8 @@ export default function TopSellingCategory() {
               return (
                 <RenderRow
                   title={item?.category}
-                  rs={item?.gross_sale?.toFixed(1)}
-                  per={item?.gross_sale_count}
+                  rs={numberWithCommas(Number(item?.gross_sale).toFixed(1))}
+                  per={numberWithCommas(Number(item?.gross_sale_count))}
                 />
               );
             }}

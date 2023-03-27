@@ -24,6 +24,7 @@ import Chart from "../Components/Chart";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import { styles } from "./PLScreen";
+import { numberWithCommas } from "../Helper/global";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -166,7 +167,7 @@ export default function ReportDetailScreen() {
                 return (
                   <RenderRow
                     title={item?.sku}
-                    rs={item?.gross_sale}
+                    rs={numberWithCommas(item?.gross_sale)}
                     per={item?.gross_sale_count}
                   />
                 );

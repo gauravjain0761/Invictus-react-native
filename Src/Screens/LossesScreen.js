@@ -20,7 +20,7 @@ import {
 } from "react-native-responsive-screen";
 import { CallIcon } from "../SvgIcons/IconSvg";
 import { useEffect } from "react";
-import { humanize } from "../Helper/global";
+import { humanize, numberWithCommas } from "../Helper/global";
 import Header from "../Components/Header";
 
 export default function LossesScreen() {
@@ -121,7 +121,9 @@ export default function LossesScreen() {
                           textAlign: "right",
                         }}
                       >
-                        {index === 10 ? parseInt(item?.[1]) : item?.[1]}
+                        {index === 10
+                          ? numberWithCommas(parseInt(item?.[1]).toFixed(1))
+                          : numberWithCommas(item?.[1].toFixed(1))}
                       </Text>
                     </View>
                   );

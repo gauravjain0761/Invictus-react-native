@@ -22,6 +22,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { styles } from "./PLScreen";
 import Header from "../Components/Header";
+import { numberWithCommas } from "../Helper/global";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -341,8 +342,8 @@ export default function MostReturnedSkus() {
                 return (
                   <RenderRow
                     sku={item?.sku}
-                    total_sales={item?.total_sales}
-                    return_count={item?.return_count}
+                    total_sales={numberWithCommas(item?.total_sales)}
+                    return_count={numberWithCommas(item?.return_count)}
                     percentage={item?.customer_return_percentage}
                     newStyle={{ textAlign: "right" }}
                   />

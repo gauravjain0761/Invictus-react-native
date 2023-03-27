@@ -29,10 +29,12 @@ export default function LoginScreen() {
   const [email, setEmail] = useState(__DEV__ ? "naquash@kajaniexim.com" : "");
   const [password, setPassword] = useState(__DEV__ ? "Password123#" : "");
   const [isPasswordSecure, setIsPasswordSecure] = useState(true);
+  const [error, setError] = useState("");
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const onPressLoginButton = () => {
+    setError("");
     setIsLoading(true);
     const request = {
       data: {
@@ -40,10 +42,17 @@ export default function LoginScreen() {
         p: password,
       },
       onSuccess: (res) => {
+        console.log("res--", res);
         dispatch(getLoginClickData(true));
         getDashboradApiCall();
       },
-      onFail: () => {
+      onFail: (err) => {
+        console.log(err);
+        if (err == "login") {
+          setError("Incorrect Login Details");
+        } else {
+          setError("");
+        }
         setIsLoading(false);
       },
     };
@@ -129,6 +138,11 @@ export default function LoginScreen() {
                   <EyePassword />
                 </TouchableOpacity>
               </View>
+              {error !== "" && (
+                <Text style={{ ...commonFontStyle(500, 15, Colors.red) }}>
+                  {error}
+                </Text>
+              )}
             </View>
             {isLoading ? (
               <TouchableOpacity

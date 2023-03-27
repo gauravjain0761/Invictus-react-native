@@ -22,6 +22,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { styles } from "./PLScreen";
 import Header from "../Components/Header";
+import { numberWithCommas } from "../Helper/global";
 
 const data = [
   { label: "Last Week", value: "1" },
@@ -231,8 +232,8 @@ export default function TopSellingSkusScreen() {
                 return (
                   <RenderRow
                     title={item?.sku}
-                    rs={Number(item?.gross_sale).toFixed(1)}
-                    per={item?.gross_sale_count}
+                    rs={numberWithCommas(Number(item?.gross_sale).toFixed(1))}
+                    per={numberWithCommas(Number(item?.gross_sale_count))}
                   />
                 );
               }}

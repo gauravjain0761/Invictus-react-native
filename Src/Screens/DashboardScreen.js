@@ -98,7 +98,7 @@ export default function DashboardScreen({ route }) {
               value: index,
               label:
                 moment(i[index]["start_date"]).format("DD MMM") +
-                " To " +
+                "-" +
                 moment(i[index]["end_date"]).format("DD MMM"),
             };
             newData.push(obj);
@@ -124,7 +124,7 @@ export default function DashboardScreen({ route }) {
       <Header isLogoutShow={true} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ApplicationStyles.chartCard}>
-          <View style={styles.chartHeader}>
+          <View style={[styles.chartHeader, { marginTop: 0 }]}>
             <View style={styles.heading}>
               <Text numberOfLines={1} style={styles.topTitle}>
                 {allDetails?.seller_name}
@@ -173,7 +173,16 @@ export default function DashboardScreen({ route }) {
           <View style={styles.halfView}>
             <View style={ApplicationStyles.chartCard}>
               <View style={styles.rupeeIcon}>
-                <RupeeIcon />
+                {selectedButton == "sales" ||
+                selectedButton == "gross_profit" ? (
+                  <RupeeIcon />
+                ) : (
+                  <Image
+                    source={require("../Icons/return1.png")}
+                    resizeMode={"contain"}
+                    style={styles.iconStyle}
+                  />
+                )}
               </View>
               <View style={{ height: hp(6) }}>
                 <Text numberOfLines={2} style={styles.cardDes}>
@@ -191,7 +200,17 @@ export default function DashboardScreen({ route }) {
           <View style={styles.halfView}>
             <View style={ApplicationStyles.chartCard}>
               <View style={styles.unitIcon}>
-                <UnitIcon />
+                <Image
+                  source={
+                    selectedButton === "sales"
+                      ? require("../Icons/sales2.png")
+                      : selectedButton == "gross_profit"
+                      ? require("../Icons/gross2.png")
+                      : require("../Icons/return2.png")
+                  }
+                  resizeMode={"contain"}
+                  style={styles.iconStyle}
+                />
               </View>
               <View style={{ height: hp(6) }}>
                 <Text style={styles.cardDes}>

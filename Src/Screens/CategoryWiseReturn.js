@@ -21,7 +21,7 @@ import ApplicationStyles from "../Themes/ApplicationStyles";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { styles } from "./PLScreen";
-import { humanize } from "../Helper/global";
+import { humanize, numberWithCommas } from "../Helper/global";
 import Header from "../Components/Header";
 
 const data = [
@@ -323,8 +323,8 @@ export default function CategoryWiseReturn() {
                 return (
                   <RenderRow
                     sku={humanize(item?.category)}
-                    total_sales={item?.total_sales}
-                    return_count={item?.return_count}
+                    total_sales={numberWithCommas(item?.total_sales)}
+                    return_count={numberWithCommas(item?.return_count)}
                     percentage={item?.customer_return_percentage}
                     newStyle={{ textAlign: "right" }}
                   />

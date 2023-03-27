@@ -107,9 +107,7 @@ export default function PLScreen() {
               <Text numberOfLines={1} style={styles.topTitle}>
                 {allDetails?.seller_name}
               </Text>
-              <Text style={styles.descriptionHeader}>
-                Profit and losses report
-              </Text>
+              <Text style={styles.descriptionHeader}>Profit & Loss Report</Text>
             </View>
             <View style={styles.dropdownView}>
               <Dropdown
