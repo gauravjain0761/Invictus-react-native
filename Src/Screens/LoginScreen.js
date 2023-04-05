@@ -2,6 +2,8 @@ import {
   ActivityIndicator,
   Image,
   ImageBackground,
+  KeyboardAvoidingView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -94,82 +96,89 @@ export default function LoginScreen() {
   return (
     <View style={ApplicationStyles.applicationView}>
       {/* <Loader visible={isLoading} /> */}
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.imageBackground}
-          source={require("../Images/loginBackgroung.png")}
-        ></ImageBackground>
-        <View style={styles.bottomView}>
-          <View style={styles.logoLOgin}>
-            <Image
-              resizeMode="contain"
-              style={styles.logoHeader}
-              source={require("../Images/logo_white.png")}
-            />
-          </View>
-          <View style={styles.loginView}>
-            <Text style={styles.titleStyle}>
-              Let's <Text style={styles.secondTitle}>Login</Text>
-            </Text>
-            <View>
-              <Text style={styles.textInputTitle}>Email</Text>
-              <TextInput
-                style={styles.textInput}
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-                placeholder={"Enter Email Id"}
-                placeholderTextColor={Colors.placeholderGray}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <View style={styles.container}>
+          <ImageBackground
+            style={styles.imageBackground}
+            source={require("../Images/loginBackgroung.png")}
+          ></ImageBackground>
+          <View style={styles.bottomView}>
+            <View style={styles.logoLOgin}>
+              <Image
+                resizeMode="contain"
+                style={styles.logoHeader}
+                source={require("../Images/logo_white.png")}
               />
             </View>
-            <View>
-              <Text style={styles.textInputTitle}>Password</Text>
-              <View style={styles.passwordInputView}>
+            <View style={styles.loginView}>
+              <Text style={styles.titleStyle}>
+                Let's <Text style={styles.secondTitle}>Login</Text>
+              </Text>
+              <View>
+                <Text style={styles.textInputTitle}>Email</Text>
                 <TextInput
-                  style={styles.textInputPwd}
-                  value={password}
-                  onChangeText={(text) => setPassword(text)}
-                  placeholder={"Enter Password"}
+                  style={styles.textInput}
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                  placeholder={"Enter Email Id"}
                   placeholderTextColor={Colors.placeholderGray}
-                  secureTextEntry={isPasswordSecure}
                 />
-                <TouchableOpacity
-                  onPress={() => setIsPasswordSecure(!isPasswordSecure)}
-                >
-                  <EyePassword />
-                </TouchableOpacity>
               </View>
-              {error !== "" && (
-                <Text style={{ ...commonFontStyle(500, 15, Colors.red) }}>
-                  {error}
-                </Text>
+              <View>
+                <Text style={styles.textInputTitle}>Password</Text>
+                <View style={styles.passwordInputView}>
+                  <TextInput
+                    style={styles.textInputPwd}
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
+                    placeholder={"Enter Password"}
+                    placeholderTextColor={Colors.placeholderGray}
+                    secureTextEntry={isPasswordSecure}
+                  />
+                  <TouchableOpacity
+                    onPress={() => setIsPasswordSecure(!isPasswordSecure)}
+                  >
+                    <EyePassword />
+                  </TouchableOpacity>
+                </View>
+                {error !== "" && (
+                  <Text style={{ ...commonFontStyle(500, 15, Colors.red) }}>
+                    {error}
+                  </Text>
+                )}
+              </View>
+              {isLoading ? (
+                <TouchableOpacity
+                  disabled={true}
+                  style={{
+                    ...styles.loginbtn,
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <ActivityIndicator size={"large"} color={Colors.white} />
+                  <Text
+                    style={{ ...styles.loginButtonText, marginLeft: hp(1) }}
+                  >
+                    Getting there
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  // onPress={() => navigation.navigate("BottomTab")}
+                  onPress={onPressLoginButton}
+                  style={styles.loginbtn}
+                >
+                  <Text style={styles.loginButtonText}>Login</Text>
+                </TouchableOpacity>
               )}
             </View>
-            {isLoading ? (
-              <TouchableOpacity
-                disabled={true}
-                style={{
-                  ...styles.loginbtn,
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <ActivityIndicator size={"large"} color={Colors.white} />
-                <Text style={{ ...styles.loginButtonText, marginLeft: hp(1) }}>
-                  Getting there
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                // onPress={() => navigation.navigate("BottomTab")}
-                onPress={onPressLoginButton}
-                style={styles.loginbtn}
-              >
-                <Text style={styles.loginButtonText}>Login</Text>
-              </TouchableOpacity>
-            )}
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 }
