@@ -347,28 +347,28 @@ const styles = StyleSheet.create({
     marginTop: hp(2),
   },
   topTitle: {
-    ...commonFontStyle(600, 18, Colors.darkBlueFont),
+    ...commonFontStyle(600, 17, Colors.darkBlueFont),
   },
   descriptionHeader: {
-    ...commonFontStyle(500, 16, Colors.blueOpacityFont),
+    ...commonFontStyle(500, 15, Colors.blueOpacityFont),
   },
   tradetypeviewStyle: {
     backgroundColor: Colors.dropDownBgColor,
     borderRadius: 100,
-    paddingHorizontal: hp(2),
+    paddingHorizontal: hp(1),
     paddingVertical: hp(0.2),
   },
   TitleTextStyle: {
     ...commonFontStyle(500, 12, Colors.blueOpacityFont),
   },
   heading: {
-    width: "60%",
+    width: "58%",
   },
   dropdownView: {
-    width: "40%",
+    width: "42%",
   },
   textItem: {
-    ...commonFontStyle(500, 14, Colors.grayFont),
+    ...commonFontStyle(500, 12, Colors.grayFont),
     paddingVertical: hp(1),
     paddingHorizontal: hp(2),
   },

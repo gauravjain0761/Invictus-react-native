@@ -40,7 +40,7 @@ export default function ReportScreen() {
       <Header />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={[ApplicationStyles.chartCard]}>
-          <Text numberOfLines={1} style={styles.topTitle}>
+          <Text numberOfLines={1} style={styles.topTitle2}>
             {allDetails?.seller_name}
           </Text>
           <Text style={styles.descriptionHeader}>Reports</Text>
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   descriptionHeader: {
-    ...commonFontStyle(500, 16, Colors.blueOpacityFont),
+    ...commonFontStyle(500, 15, Colors.blueOpacityFont),
   },
   headerTitleView: {
     flexDirection: "row",
@@ -126,5 +126,9 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: Colors.deviderLine,
     marginTop: hp(1.2),
+  },
+
+  topTitle2: {
+    ...commonFontStyle(600, 17, Colors.darkBlueFont),
   },
 });

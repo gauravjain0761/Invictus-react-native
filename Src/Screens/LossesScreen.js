@@ -160,11 +160,11 @@ export default function LossesScreen() {
 
 const styles = StyleSheet.create({
   topTitle: {
-    ...commonFontStyle(600, 18, Colors.darkBlueFont),
+    ...commonFontStyle(600, 17, Colors.darkBlueFont),
     marginRight: 5,
   },
   descriptionHeader: {
-    ...commonFontStyle(500, 16, Colors.blueOpacityFont),
+    ...commonFontStyle(500, 15, Colors.blueOpacityFont),
   },
   rupeeView: {
     backgroundColor: Colors.red,

@@ -104,7 +104,7 @@ export default function PLScreen() {
         <View style={ApplicationStyles.chartCard}>
           <View style={styles.chartHeader}>
             <View style={styles.heading}>
-              <Text numberOfLines={1} style={styles.topTitle}>
+              <Text numberOfLines={1} style={styles.topTitle2}>
                 {allDetails?.seller_name}
               </Text>
               <Text style={styles.descriptionHeader}>Profit & Loss Report</Text>
@@ -384,23 +384,31 @@ export const styles = StyleSheet.create({
   topTitle: {
     ...commonFontStyle(600, 18, Colors.darkBlueFont),
   },
+  topTitle2: {
+    ...commonFontStyle(600, 17, Colors.darkBlueFont),
+  },
   descriptionHeader: {
-    ...commonFontStyle(500, 16, Colors.blueOpacityFont),
+    ...commonFontStyle(500, 15, Colors.blueOpacityFont),
   },
   tradetypeviewStyle: {
     backgroundColor: Colors.dropDownBgColor,
     borderRadius: 100,
-    paddingHorizontal: hp(2),
+    paddingHorizontal: hp(1),
     paddingVertical: hp(0.2),
   },
   TitleTextStyle: {
     ...commonFontStyle(500, 12, Colors.blueOpacityFont),
   },
   heading: {
-    width: "60%",
+    width: "58%",
   },
   dropdownView: {
-    width: "40%",
+    width: "42%",
+  },
+  textItem: {
+    ...commonFontStyle(500, 12, Colors.grayFont),
+    paddingVertical: hp(1),
+    paddingHorizontal: hp(2),
   },
   datePickerMainView: {
     flexDirection: "row",
@@ -461,11 +469,11 @@ export const styles = StyleSheet.create({
     textAlign: "right",
   },
   leftTextExpense: {
-    ...commonFontStyle(500, 16, Colors.red),
+    ...commonFontStyle(500, 15, Colors.red),
     width: "52%",
   },
   middleTextExpense: {
-    ...commonFontStyle(500, 16, Colors.darkBlueFont),
+    ...commonFontStyle(500, 15, Colors.darkBlueFont),
     width: "30%",
   },
   rightTextExpense: {
@@ -503,11 +511,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  textItem: {
-    ...commonFontStyle(500, 14, Colors.grayFont),
-    paddingVertical: hp(1),
-    paddingHorizontal: hp(2),
-  },
+
   reportBtn: {
     backgroundColor: Colors.darkBlueFont,
     alignSelf: "center",

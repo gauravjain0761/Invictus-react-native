@@ -115,7 +115,7 @@ export default function TopSellingCategory() {
         <View style={ApplicationStyles.chartCard}>
           <View style={styles.chartHeader}>
             <View style={styles.heading}>
-              <Text numberOfLines={1} style={styles.topTitle}>
+              <Text numberOfLines={1} style={styles.topTitle2}>
                 {allDetails?.seller_name}
               </Text>
               <Text style={styles.descriptionHeader}>Top Selling Category</Text>
