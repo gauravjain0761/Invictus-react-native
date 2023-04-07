@@ -471,15 +471,16 @@ export const styles = StyleSheet.create({
     textAlign: "right",
   },
   leftTextExpense: {
-    ...commonFontStyle(500, 15, Colors.red),
+    ...commonFontStyle(500, 13, Colors.red),
     width: "45%",
   },
   middleTextExpense: {
-    ...commonFontStyle(500, 15, Colors.darkBlueFont),
+    ...commonFontStyle(500, 13, Colors.darkBlueFont),
     width: "37%",
+    // backgroundColor: "red",
   },
   rightTextExpense: {
-    ...commonFontStyle(500, 14, Colors.darkBlueFont),
+    ...commonFontStyle(500, 13, Colors.darkBlueFont),
     width: "18%",
     textAlign: "right",
   },
