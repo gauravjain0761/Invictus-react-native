@@ -310,6 +310,7 @@ export default function PLScreen() {
             <Text numberOfLines={1} style={styles.leftTextExpense}>
               {"Net Expenses Fee"}
             </Text>
+
             <Text
               numberOfLines={1}
               style={{ ...styles.middleTextExpense, textAlign: "right" }}
@@ -317,6 +318,7 @@ export default function PLScreen() {
               {"₹ "}
               {plusNumberWithCommas(netExpenses?.toFixed(1))}
             </Text>
+
             <Text numberOfLines={1} style={styles.rightTextExpense}>
               {Math.abs(percentage.toFixed(1))}
               {"%"}
@@ -470,11 +472,11 @@ export const styles = StyleSheet.create({
   },
   leftTextExpense: {
     ...commonFontStyle(500, 15, Colors.red),
-    width: "52%",
+    width: "45%",
   },
   middleTextExpense: {
     ...commonFontStyle(500, 15, Colors.darkBlueFont),
-    width: "30%",
+    width: "37%",
   },
   rightTextExpense: {
     ...commonFontStyle(500, 14, Colors.darkBlueFont),
